@@ -24,10 +24,9 @@ repository:
     patterns:
     - comment: Documentation line comment
       name: comment.block.documentation.osprey
-      match: ///.{0,90}.*
+      match: ///.{0,90}(.*)
       captures:
-        '1': {name: comment.block.documentation.osprey}
-        '2': {name: comment.block.documentation.excess.osprey}
+        '1': {name: comment.block.documentation.excess.osprey}
     - comment: Documentation block comment
       name: comment.block.documentation.osprey
       begin: /\*\*(?!/)

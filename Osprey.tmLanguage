@@ -45,18 +45,13 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>comment.block.documentation.osprey</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
 							<string>comment.block.documentation.excess.osprey</string>
 						</dict>
 					</dict>
 					<key>comment</key>
 					<string>Documentation line comment</string>
 					<key>match</key>
-					<string>///.{0,90}.*</string>
+					<string>///.{0,90}(.*)</string>
 					<key>name</key>
 					<string>comment.block.documentation.osprey</string>
 				</dict>
