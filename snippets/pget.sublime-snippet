@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[
+private _${1:property};
+/// Summary: $0
+public get ${1:property} = _${1:property};
+]]></content>
+	<tabTrigger>pget</tabTrigger>
+	<scope>source.osprey</scope>
+	<description>Readonly property</description>
+</snippet>

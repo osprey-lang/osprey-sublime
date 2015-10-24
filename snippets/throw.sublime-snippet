@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+throw new ${1:Error}(${2:args});
+	]]></content>
+	<tabTrigger>throw</tabTrigger>
+	<scope>source.osprey</scope>
+	<description>throw …;</description>
+</snippet>

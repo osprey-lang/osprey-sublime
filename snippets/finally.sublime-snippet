@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[
+finally
+{
+	$0
+}
+	]]></content>
+	<tabTrigger>finally</tabTrigger>
+	<scope>source.osprey</scope>
+	<description>finally …</description>
+</snippet>

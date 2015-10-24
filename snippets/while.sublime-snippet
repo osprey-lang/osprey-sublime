@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[
+while ${1:true}
+{
+	$0
+}
+]]></content>
+	<tabTrigger>while</tabTrigger>
+	<scope>source.osprey</scope>
+	<description>while …</description>
+</snippet>

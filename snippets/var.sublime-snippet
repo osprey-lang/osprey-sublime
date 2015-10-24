@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+var ${1:x} = ${2:value};
+]]></content>
+	<tabTrigger>var</tabTrigger>
+	<scope>source.osprey</scope>
+	<description>var … = …;</description>
+</snippet>

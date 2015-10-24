@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[
+catch ${1:Error} in ${2:e}
+{
+	$0
+}
+	]]></content>
+	<tabTrigger>catch</tabTrigger>
+	<scope>source.osprey</scope>
+	<description>catch … in …</description>
+</snippet>

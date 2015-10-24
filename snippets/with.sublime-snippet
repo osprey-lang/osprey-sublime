@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[
+with ${1:x} = ${2:expr}
+{
+	$0
+}
+]]></content>
+	<tabTrigger>with</tabTrigger>
+	<scope>source.osprey</scope>
+	<description>with … = …</description>
+</snippet>

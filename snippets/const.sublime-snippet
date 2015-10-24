@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+const ${1:x} = ${2:value};
+	]]></content>
+	<tabTrigger>const</tabTrigger>
+	<scope>source.osprey</scope>
+	<description>const … = …;</description>
+</snippet>

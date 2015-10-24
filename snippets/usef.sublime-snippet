@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+use "${1:file.osp}";
+]]></content>
+	<tabTrigger>usef</tabTrigger>
+	<scope>source.osprey</scope>
+	<description>use "…";</description>
+</snippet>
