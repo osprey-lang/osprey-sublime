@@ -86,7 +86,7 @@ repository:
       match: '(?>break|catch|do|else|finally|for|if|next|return|throw|try|while|with|yield)\b'
     - comment: Keyword operators
       name: keyword.operator.osprey
-      match: '(?>and|in|is|not|or|refeq|ref|typeof|xor)\b|@' # Don't reorder ref and refeq; atomic group!
+      match: '(?>and|in|is|not|or|refeq|ref|typeof|xor)\b' # Don't reorder ref and refeq; atomic group!
     - comment: Keyword constants
       name: constant.language.osprey
       match: '(?>false|null|true)\b'
@@ -118,6 +118,10 @@ repository:
   punctuation:
     comment: Assorted punctuation
     patterns:
+    - name: keyword.operator.at.osprey
+      match: '@'
+    - name: keyword.operator.osprey
+      match: '~|[+|/%&^#$!=]=?|-[>=]?|\*\*?=?|<=>|>>?=?|<<?=?|::=?'
     - name: meta.brace.round.osprey
       match: '\(|\)'
     - name: meta.brace.square.osprey

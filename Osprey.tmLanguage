@@ -134,7 +134,7 @@
 					<key>comment</key>
 					<string>Keyword operators</string>
 					<key>match</key>
-					<string>(?&gt;and|in|is|not|or|refeq|ref|typeof|xor)\b|@</string>
+					<string>(?&gt;and|in|is|not|or|refeq|ref|typeof|xor)\b</string>
 					<key>name</key>
 					<string>keyword.operator.osprey</string>
 				</dict>
@@ -218,6 +218,18 @@
 			<string>Assorted punctuation</string>
 			<key>patterns</key>
 			<array>
+				<dict>
+					<key>match</key>
+					<string>@</string>
+					<key>name</key>
+					<string>keyword.operator.at.osprey</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>~|[+|/%&amp;^#$!=]=?|-[&gt;=]?|\*\*?=?|&lt;=&gt;|&gt;&gt;?=?|&lt;&lt;?=?|::=?</string>
+					<key>name</key>
+					<string>keyword.operator.osprey</string>
+				</dict>
 				<dict>
 					<key>match</key>
 					<string>\(|\)</string>
