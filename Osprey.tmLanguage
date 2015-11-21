@@ -226,7 +226,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>~|[+|/%&amp;^#$!=]=?|-[&gt;=]?|\*\*?=?|&lt;=&gt;|&gt;&gt;?=?|&lt;&lt;?=?|::=?</string>
+					<string>~|[+|/%&amp;^#$!=]=?|-[&gt;=]?|\*\*?=?|&lt;=&gt;|&gt;&gt;?=?|&lt;&lt;?=?|::=?|\?[?!]</string>
 					<key>name</key>
 					<string>keyword.operator.osprey</string>
 				</dict>

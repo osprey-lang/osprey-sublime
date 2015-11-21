@@ -121,7 +121,7 @@ repository:
     - name: keyword.operator.at.osprey
       match: '@'
     - name: keyword.operator.osprey
-      match: '~|[+|/%&^#$!=]=?|-[>=]?|\*\*?=?|<=>|>>?=?|<<?=?|::=?'
+      match: '~|[+|/%&^#$!=]=?|-[>=]?|\*\*?=?|<=>|>>?=?|<<?=?|::=?|\?[?!]'
     - name: meta.brace.round.osprey
       match: '\(|\)'
     - name: meta.brace.square.osprey
