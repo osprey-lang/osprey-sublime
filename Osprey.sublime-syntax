@@ -6,7 +6,7 @@ scope: source.osprey
 
 variables:
   ident: '\\?[\p{L}_][\p{L}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\p{Cf}_]*'
-  ident_no_kw: '(?!(?>a(?>bstract|nd|sync)|b(?>ase|reak)|c(?>atch|lass|onst)|do|e(?>lse|num)|f(?>alse|inally|or|unction)|global|i(?>f|nheritable|n|s|ter)|n(?>amespace|ew|ext|ot|ull)|o(?>perator|r|verridable|verride)|p(?>rivate|rotected|ublic)|r(?>efeq|ef|eturn)|static|t(?>his|hrow|rue|ry|ypeof)|use|var|w(?>hile|ith)|xor|yield)\b)\\?[\p{L}_][\p{L}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\p{Cf}_]*'
+  ident_no_kw: '(?!(?>a(?>bstract|nd|sync)|b(?>ase|reak)|c(?>atch|lass|onst)|do|e(?>lse|num)|f(?>alse|inally|or|unction)|global|i(?>f|nheritable|n|s|ter)|n(?>amespace|ew|ext|ot|ull)|o(?>perator|r|verridable|verride)|p(?>rivate|rotected|ublic)|r(?>efeq|ef|eturn)|static|t(?>his|hrow|rue|ry|ypeof)|use|var|w(?>hile|ith)|xor|yield)\b){{ident}}'
 
 contexts:
   prototype:
@@ -16,6 +16,9 @@ contexts:
     - include: class_definition
     - include: enum_definition
     - include: function_definition
+    - match: '!'
+      scope: keyword.operator.osprey
+      push: annotation
     - include: tokens
 
   tokens:
