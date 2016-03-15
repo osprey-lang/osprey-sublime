@@ -151,12 +151,12 @@ contexts:
       captures:
         1: keyword.operator.at.osprey
         2: meta.brace.round.osprey
-      push: parenthesis
+      push: parameter_list
     # @
     - match: '@'
       scope: keyword.operator.at.osprey
     # ? - treated specially, so we can highlight ':' correctly only when part of a conditional expression
-    - match: '\?(?![.\[\(])'
+    - match: '\?(?![.\[\(?!])'
       scope: keyword.operator.osprey
       push: conditional_expression
     # Various operators
@@ -228,7 +228,7 @@ contexts:
         1: entity.name.function.osprey
         2: keyword.other.osprey
         3: meta.brace.round.osprey
-      push: [method_body, parenthesis]
+      push: [method_body, parameter_list]
     # Field or constant declaration
     - match: '({{ident_no_kw}})(?!\s*\()'
       scope: entity.name.other.osprey
@@ -239,7 +239,7 @@ contexts:
         1: keyword.other.osprey
         2: entity.name.other.osprey
         3: meta.brace.round.osprey
-      push: [method_body, parenthesis]
+      push: [method_body, parameter_list]
     # Iterator declaration
     - match: 'iter\b'
       scope: keyword.other.osprey
@@ -366,5 +366,30 @@ contexts:
         1: storage.type.osprey
         2: entity.name.function.osprey
         3: meta.brace.round.osprey
-      push: [method_body, parenthesis]
+      push: [method_body, parameter_list]
+
+  parameter_list:
+    - match: '\)'
+      scope: meta.brace.round.osprey
+      pop: true
+    - match: '='
+      scope: keyword.operator.osprey
+      set: default_parameter_value
+    # Same as 'tokens', but with special handling for identifiers
+    - include: string
+    - include: char
+    - include: number
+    - include: keyword
+    - match: '{{ident}}'
+      scope: variable.parameter.osprey
+    - include: identifier
+    - include: punctuation
+
+  default_parameter_value:
+    - match: ','
+      set: parameter_list
+    - match: '\)'
+      scope: meta.brace.round.osprey
+      pop: true
+    - include: tokens
 ...
