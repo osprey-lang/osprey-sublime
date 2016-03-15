@@ -155,6 +155,10 @@ contexts:
     # @
     - match: '@'
       scope: keyword.operator.at.osprey
+    # ? - treated specially, so we can highlight ':' correctly only when part of a conditional expression
+    - match: '\?(?![.\[\(])'
+      scope: keyword.operator.osprey
+      push: conditional_expression
     # Various operators
     - match: '~|[+|/%&^#$!=]=?|-[>=]?|\*\*?=?|<=>|>>?=?|<<?=?|::=?|\?[?!]'
       scope: keyword.operator.osprey
@@ -168,6 +172,12 @@ contexts:
     - match: '\{'
       scope: meta.brace.curly.osprey
       push: curly_brace
+
+  conditional_expression:
+    - match: ':'
+      scope: keyword.operator.osprey
+      pop: true
+    - include: tokens
 
   parenthesis:
     - match: '\)'
