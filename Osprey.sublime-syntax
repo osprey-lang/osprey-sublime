@@ -308,14 +308,15 @@ contexts:
     - include: tokens
 
   annotation:
-    # The rules gets a bit messy here... basically, allow keywords, '.', identifier and
-    # '('. If we find anything else, including EOL, it's the end of the annotation.
+    # The rules gets a bit messy here... basically, allow keywords, '.', ':', identifier
+    # and '('. If we find anything else, including EOL, it's the end of the annotation.
+    # ':' is permitted so that annotations like "!global: Foo" can be highlighted correctly.
     # Note: annotations are not actually required to be on a single line, but it's the
     # convention, and I haven't found a more reliable way to highlight this...
     - include: keyword
     - include: identifier
-    # No scope for this
-    - match: '\.'
+    # No scope for these
+    - match: '[.:]'
     # Arguments to the constructor; optional
     - match: '\('
       scope: meta.brace.round.osprey
