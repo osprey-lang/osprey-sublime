@@ -152,6 +152,11 @@ contexts:
         1: keyword.operator.at.osprey
         2: meta.brace.round.osprey
       push: parameter_list
+    # @ followed by identifier - the identifier is a parameter name
+    - match: '(@)\s*({{ident_no_kw}})'
+      captures:
+        1: keyword.operator.at.osprey
+        2: variable.parameter.osprey
     # @
     - match: '@'
       scope: keyword.operator.at.osprey
