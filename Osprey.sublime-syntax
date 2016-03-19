@@ -218,6 +218,7 @@ contexts:
     - include: tokens
 
   class_body:
+    - meta_scope: meta.class.body.osprey
     # Property accessor declaration
     - match: '(get|set)\s+(?:({{ident_no_kw}})|(this\b))'
       scope: meta.property.osprey
