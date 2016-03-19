@@ -1,8 +1,0 @@
-<snippet>
-	<content><![CDATA[
-use namespace ${1:aves};
-]]></content>
-	<tabTrigger>usen</tabTrigger>
-	<scope>source.osprey</scope>
-	<description>use namespace …;</description>
-</snippet>
