@@ -332,6 +332,7 @@ contexts:
       pop: true
 
   enum_definition:
+    - meta_include_prototype: false
     - match: '(enum(?:\s+set)?)\s+({{ident_no_kw}})'
       scope: meta.class.osprey
       captures:
@@ -341,29 +342,39 @@ contexts:
 
   enum_definition_meta:
     - match: '\{'
+      scope: meta.brace.curly.osprey
       set: enum_body
     - include: tokens
 
   enum_body:
+    - match: '\}'
+      scope: meta.brace.curly.osprey
+      pop: true
     - match: '{{ident_no_kw}}'
       scope: entity.name.other.osprey
-      push: enum_field_definition
+      set: enum_field_definition
     - match: '!'
       scope: keyword.operator.osprey
       push: annotation
     - include: tokens
 
   enum_field_definition:
-    - match: ','
+    - match: '\}'
+      scope: meta.brace.curly.osprey
       pop: true
+    - match: ','
+      set: enum_body
     - match: '='
       scope: keyword.operator.osprey
       set: enum_field_value
     - include: tokens
 
   enum_field_value:
-    - match: ','
+    - match: '\}'
+      scope: meta.brace.curly.osprey
       pop: true
+    - match: ','
+      set: enum_body
     - include: tokens
 
   function_definition:
