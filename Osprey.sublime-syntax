@@ -320,6 +320,9 @@ contexts:
     - match: '='
       scope: keyword.operator.osprey
       set: field_value
+    # Another field name (hopefully after a comma)
+    - match: '{{ident_no_kw}}'
+      scope: entity.name.field.class.osprey
     # Comma needs no special treatment here; they just continue the field definition
     - include: tokens
 
