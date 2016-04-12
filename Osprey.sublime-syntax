@@ -226,7 +226,7 @@ contexts:
         1: keyword.other.osprey
         2: entity.name.other.osprey
         3: keyword.other.osprey
-      push: property_body
+      push: property_definition
     # Method declaration
     - match: '(?:({{ident_no_kw}})|(new|this)\b)\s*(\()'
       scope: meta.function.osprey
@@ -260,7 +260,11 @@ contexts:
     - match: '\}'
       pop: true
 
-  property_body:
+  property_definition:
+    # Indexer accessor parameter list
+    - match: '\['
+      scope: meta.brace.square.osprey
+      push: indexer_parameter_list
     # Property accessor with expression getter
     - match: '='
       scope: keyword.operator.osprey
@@ -275,6 +279,21 @@ contexts:
     # This might screw up syntactically broken property accessor definitions,
     # but it'll be okay
     - include: tokens
+
+  indexer_parameter_list:
+    - match: '\]'
+      scope: meta.brace.square.osprey
+      pop: true
+    # Unlike parameter_list, an indexer accessor parameter list can only contain "simple"
+    # parameters, i.e. plain identifiers. For performance, inline the members of 'tokens'.
+    - include: string
+    - include: char
+    - include: number
+    - include: keyword
+    - match: '{{ident}}'
+      scope: variable.parameter.osprey
+    - include: identifier
+    - include: punctuation
 
   property_expr_body:
     - match: ';'
