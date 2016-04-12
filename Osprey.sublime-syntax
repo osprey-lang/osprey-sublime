@@ -150,7 +150,7 @@ contexts:
     - match: '(@)\s*(\()'
       captures:
         1: keyword.operator.at.osprey
-        2: meta.brace.round.osprey
+        2: meta.brace.round.open.osprey
       push: parameter_list
     # @ followed by identifier - the identifier is a parameter name
     - match: '(@)\s*({{ident_no_kw}})'
@@ -169,13 +169,13 @@ contexts:
       scope: keyword.operator.osprey
     # Brackets
     - match: '\('
-      scope: meta.brace.round.osprey
+      scope: meta.brace.round.open.osprey
       push: parenthesis
     - match: '\['
-      scope: meta.brace.square.osprey
+      scope: meta.brace.square.open.osprey
       push: square_bracket
     - match: '\{'
-      scope: meta.brace.curly.osprey
+      scope: meta.brace.curly.open.osprey
       push: curly_brace
 
   conditional_expression:
@@ -186,19 +186,19 @@ contexts:
 
   parenthesis:
     - match: '\)'
-      scope: meta.brace.round.osprey
+      scope: meta.brace.round.close.osprey
       pop: true
     - include: tokens
 
   square_bracket:
     - match: '\]'
-      scope: meta.brace.square.osprey
+      scope: meta.brace.square.close.osprey
       pop: true
     - include: tokens
 
   curly_brace:
     - match: '\}'
-      scope: meta.brace.curly.osprey
+      scope: meta.brace.curly.close.osprey
       pop: true
     - include: tokens
 
@@ -209,7 +209,7 @@ contexts:
       captures:
         1: storage.type.osprey
         2: keyword.other.osprey
-        3: entity.name.type.osprey
+        3: entity.name.type.class.osprey
       push: class_definition_meta
 
   class_definition_meta:
@@ -224,7 +224,7 @@ contexts:
       scope: meta.property.osprey
       captures:
         1: keyword.other.osprey
-        2: entity.name.other.osprey
+        2: entity.name.property.osprey
         3: keyword.other.osprey
       push: property_definition
     # Method declaration
@@ -233,18 +233,18 @@ contexts:
       captures:
         1: entity.name.function.osprey
         2: keyword.other.osprey
-        3: meta.brace.round.osprey
+        3: meta.brace.round.open.osprey
       push: [method_body, parameter_list]
     # Field or constant declaration
     - match: '({{ident_no_kw}})(?!\s*\()'
-      scope: entity.name.other.osprey
+      scope: entity.name.field.class.osprey
       push: field_definition
     # Operator overload declaration
     - match: '(operator)\s*([~+-|^/%&#$]|\*\*?|<(?:<|=>)|>>?|==)\s*(\()'
       captures:
         1: keyword.other.osprey
-        2: entity.name.other.osprey
-        3: meta.brace.round.osprey
+        2: entity.name.operator.osprey
+        3: meta.brace.round.open.osprey
       push: [method_body, parameter_list]
     # Iterator declaration
     - match: 'iter\b'
@@ -263,7 +263,7 @@ contexts:
   property_definition:
     # Indexer accessor parameter list
     - match: '\['
-      scope: meta.brace.square.osprey
+      scope: meta.brace.square.open.osprey
       push: indexer_parameter_list
     # Property accessor with expression getter
     - match: '='
@@ -271,7 +271,7 @@ contexts:
       set: property_expr_body
     # Property accessor with block body
     - match: '{'
-      scope: meta.brace.curly.osprey
+      scope: meta.brace.curly.open.osprey
       set: curly_brace
     # Property accessor without a body (probably abstract)
     - match: ';'
@@ -282,7 +282,7 @@ contexts:
 
   indexer_parameter_list:
     - match: '\]'
-      scope: meta.brace.square.osprey
+      scope: meta.brace.square.close.osprey
       pop: true
     # Unlike parameter_list, an indexer accessor parameter list can only contain "simple"
     # parameters, i.e. plain identifiers. For performance, inline the members of 'tokens'.
@@ -304,7 +304,7 @@ contexts:
   method_body:
     # Block body
     - match: '\{'
-      scope: meta.brace.curly.osprey
+      scope: meta.brace.curly.open.osprey
       set: curly_brace
     # No body (probably abstract)
     - match: ';'
@@ -344,7 +344,7 @@ contexts:
     - match: '[.:]'
     # Arguments to the constructor; optional
     - match: '\('
-      scope: meta.brace.round.osprey
+      scope: meta.brace.round.open.osprey
       set: parenthesis
     # End of line, or anything else that isn't whitespace
     - match: '(?=$|\S)'
@@ -356,21 +356,21 @@ contexts:
       scope: meta.class.osprey
       captures:
         1: storage.type.osprey
-        2: entity.name.type.osprey
+        2: entity.name.type.enum.osprey
       push: enum_definition_meta
 
   enum_definition_meta:
     - match: '\{'
-      scope: meta.brace.curly.osprey
+      scope: meta.brace.curly.open.osprey
       set: enum_body
     - include: tokens
 
   enum_body:
     - match: '\}'
-      scope: meta.brace.curly.osprey
+      scope: meta.brace.curly.close.osprey
       pop: true
     - match: '{{ident_no_kw}}'
-      scope: entity.name.other.osprey
+      scope: entity.name.field.enum.osprey
       set: enum_field_definition
     - match: '!'
       scope: keyword.operator.osprey
@@ -379,7 +379,7 @@ contexts:
 
   enum_field_definition:
     - match: '\}'
-      scope: meta.brace.curly.osprey
+      scope: meta.brace.curly.close.osprey
       pop: true
     - match: ','
       set: enum_body
@@ -390,7 +390,7 @@ contexts:
 
   enum_field_value:
     - match: '\}'
-      scope: meta.brace.curly.osprey
+      scope: meta.brace.curly.close.osprey
       pop: true
     - match: ','
       set: enum_body
@@ -402,12 +402,12 @@ contexts:
       captures:
         1: storage.type.osprey
         2: entity.name.function.osprey
-        3: meta.brace.round.osprey
+        3: meta.brace.round.open.osprey
       push: [method_body, parameter_list]
 
   parameter_list:
     - match: '\)'
-      scope: meta.brace.round.osprey
+      scope: meta.brace.round.close.osprey
       pop: true
     - match: '='
       scope: keyword.operator.osprey
@@ -426,7 +426,7 @@ contexts:
     - match: ','
       set: parameter_list
     - match: '\)'
-      scope: meta.brace.round.osprey
+      scope: meta.brace.round.close.osprey
       pop: true
     - include: tokens
 ...
