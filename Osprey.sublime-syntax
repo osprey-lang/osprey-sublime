@@ -227,6 +227,12 @@ contexts:
         2: entity.name.property.osprey
         3: keyword.other.osprey
       push: property_definition
+    # Type initializer (non-standard extension)
+    - match: '(__init_type)\s*(\()'
+      captures:
+        1: keyword.extension.osprey
+        2: meta.brace.round.open.osprey
+      push: parenthesis
     # Method declaration
     - match: '(?:({{ident_no_kw}})|(new|this)\b)\s*(\()'
       scope: meta.function.osprey
