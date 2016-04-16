@@ -1,0 +1,27 @@
+[
+    // Extend documentation comment
+    // Note that this always inserts a bunch of spaces after the '///'.
+    // The next key binding below below makes sure to "unindent" when you start
+    // a new section.
+    { "keys": ["enter"], "command": "insert_snippet", "args": { "contents": "\n///          " }, "context":
+        [
+            { "key": "selector", "operator": "equal", "operand": "source.osprey", "match_all": true },
+            { "key": "num_selections", "operator": "equal", "operand": 1 },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "^\\s*///" },
+            { "key": "auto_complete_visible", "operator": "equal", "operand": false },
+            { "key": "setting.command_mode", "operator": "equal", "operand": false }
+        ]
+    },
+    // Fix documentation comment indentation
+    // Example: If you type "///      Summary:", it gets fixed to "/// Summary:"
+    { "keys": [":"], "command": "osprey_fix_doc_comment_keyword_indent", "context":
+        [
+            { "key": "selector", "operator": "equal", "operand": "source.osprey", "match_all": true },
+            { "key": "num_selections", "operator": "equal", "operand": 1 },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s*///\\s+(?i:summary|param|returns|throws|remarks)(?:\\s[^:]*)?" },
+            { "key": "setting.command_mode", "operator": "equal", "operand": false }
+            // auto_complete_visible should usually be false, but in this case, we allow it to be open,
+            // for the sake of parameter names.
+        ]
+    }
+]
