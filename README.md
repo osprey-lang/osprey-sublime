@@ -8,9 +8,14 @@ Everything you need for rapid development of Osprey programs in Sublime Text.
 
 Currently supported:
 
-* Syntax highlighting (via `.sublime-syntax` file – only works with Sublime Text 3 Build 3084 and above)
+* Syntax highlighting (via `.sublime-syntax` file – works only with ST3 Build 3084 and above)
 * Snippets for various constructs:
-	* `pget` for read-only properties (inside class bodies)
-	* `use`, `usea` (use alias), `usef` (use file)
-	* `catch`, `const`, `do–while`, `else`, `finally`, `for`, `if`, `throw`, `try`, `var`, `while`, `with`
+  - `pget` for read-only properties (inside class bodies)
+	- `use`, `usea` (use alias), `usef` (use file)
+  - `catch`, `const`, `do–while`, `else`, `finally`, `for`, `if`, `throw`, `try`, `var`, `while`, `with`
 * Comment keyboard shortcuts (Ctrl-`/` / Cmd-`/`; Ctrl-Shift-`/` / Cmd-Shift-`/`)
+* Improved documentation comment editing:
+  - Typing `///` will start a documentation comment, if you are not already in one.
+  - The new documentation comment automatically gets parameters from the next line (but only the next line – parameter lists broken over multiple lines are not examined (this may be fixed in a future version))
+  - Enter continues the doc comment onto the next line, with contents appropriately indented (use Ctrl-Enter / Cmd-Enter to start a new line without `///`)
+  - Automatically fixes formatting of new sections: `///     Remarks:` becomes `/// Remarks:`.
