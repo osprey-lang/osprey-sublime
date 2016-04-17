@@ -19,7 +19,21 @@
             { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s*///\\s+(?i:summary|param|returns|throws|remarks)(?:\\s[^:]*)?", "match_all": true },
             { "key": "setting.command_mode", "operator": "equal", "operand": false }
             // auto_complete_visible should usually be false, but in this case, we allow it to be open,
-            // for the sake of parameter names.
+            // for the sake of parameter and type names.
+        ]
+    },
+    // Create documentation comment
+    // This command is triggered when the line contains any amount of whitespace
+    // plus exactly two slashes. The osprey_create_doc_comment command takes care
+    // of examining surrounding lines and figuring out what needs to be inserted.
+    { "keys": ["/"], "command": "osprey_create_doc_comment", "args": { "trigger": "/" }, "context":
+        [
+            { "key": "selector", "operator": "equal", "operand": "source.osprey", "match_all": true },
+            { "key": "num_selections", "operator": "equal", "operand": 1 },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s*//$" },
+            { "key": "selection_empty", "operator": "equal", "operand": true },
+            { "key": "auto_complete_visible", "operator": "equal", "operand": false },
+            { "key": "setting.command_mode", "operator": "equal", "operand": false }
         ]
     }
 ]
