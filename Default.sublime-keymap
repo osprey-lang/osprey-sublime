@@ -1,39 +1,88 @@
 [
-    // Extend documentation comment
-    // Note that this always inserts a bunch of spaces after the '///'.
-    // The next key binding below below makes sure to "unindent" when you start
-    // a new section.
-    { "keys": ["enter"], "command": "insert", "args": { "characters": "\n///          " }, "context":
+    // Create block comment
+    { "keys": ["*"], "command": "insert_snippet", "args": {"contents": "*$0*/"}, "context":
         [
-            { "key": "selector", "operator": "equal", "operand": "source.osprey", "match_all": true },
+            { "key": "selector", "operator": "equal", "operand": "source.osprey - comment.block", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s*/" },
+            { "key": "auto_complete_visible", "operator": "equal", "operand": false },
+            { "key": "setting.command_mode", "operator": "equal", "operand": false }
+        ]
+    },
+    // Extend block comment (first line)
+    { "keys": ["enter"], "command": "insert_snippet", "args": {"contents": "\n * $0\n "}, "context":
+        [
+            { "key": "selector", "operator": "equal", "operand": "source.osprey comment.block", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "^\\s*/\\*" },
+            { "key": "auto_complete_visible", "operator": "equal", "operand": false },
+            { "key": "setting.command_mode", "operator": "equal", "operand": false }
+        ]
+    },
+    // Extend block comment (subsequent lines)
+    { "keys": ["enter"], "command": "insert_snippet", "args": {"contents": "\n${TM_CURRENT_LINE/^\\s*(\\S+).*/$1/} "}, "context":
+        [
+            { "key": "selector", "operator": "equal", "operand": "source.osprey comment.block", "match_all": true },
+            { "key": "preceding_text", "operator": "not_regex_contains", "operand": "^\\s*/\\*" },
+            { "key": "auto_complete_visible", "operator": "equal", "operand": false },
+            { "key": "setting.command_mode", "operator": "equal", "operand": false }
+        ]
+    },
+    // Create documentation comment (line)
+    { "keys": ["/"], "command": "osprey_create_doc_comment", "args": {"kind": "line"}, "context":
+        [
+            { "key": "selector", "operator": "equal", "operand": "source.osprey - string", "match_all": true },
+            { "key": "num_selections", "operator": "equal", "operand": 1 },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s*//$" },
+            { "key": "selection_empty", "operator": "equal", "operand": true },
+            { "key": "auto_complete_visible", "operator": "equal", "operand": false },
+            { "key": "setting.command_mode", "operator": "equal", "operand": false }
+        ]
+    },
+    // Create documentation comment (block)
+    { "keys": ["*"], "command": "osprey_create_doc_comment", "args": {"kind": "block"}, "context":
+        [
+            { "key": "selector", "operator": "equal", "operand": "source.osprey comment.block" },
+            { "key": "num_selections", "operator": "equal", "operand": 1 },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s*/\\*$" },
+            { "key": "selection_empty", "operator": "equal", "operand": true },
+            { "key": "auto_complete_visible", "operator": "equal", "operand": false },
+            { "key": "setting.command_mode", "operator": "equal", "operand": false }
+        ]
+    },
+    // Extend documentation comment (line)
+    { "keys": ["enter"], "command": "insert", "args": {"characters": "\n///          "}, "context":
+        [
+            { "key": "selector", "operator": "equal", "operand": "source.osprey - string", "match_all": true },
             { "key": "preceding_text", "operator": "regex_contains", "operand": "^\\s*///", "match_all": true },
             { "key": "auto_complete_visible", "operator": "equal", "operand": false },
             { "key": "setting.command_mode", "operator": "equal", "operand": false }
         ]
     },
-    // Fix documentation comment indentation
-    // Example: If you type "///      Summary:", it gets fixed to "/// Summary:"
-    { "keys": [":"], "command": "osprey_fix_doc_comment_keyword_indent", "context":
+    // Extend documentation comment (block)
+    { "keys": ["enter"], "command": "insert", "args": {"characters": "\n*          "}, "context":
         [
-            { "key": "selector", "operator": "equal", "operand": "source.osprey", "match_all": true },
+            { "key": "selector", "operator": "equal", "operand": "source.osprey comment.block.documentation", "match_all": true },
+            { "key": "auto_complete_visible", "operator": "equal", "operand": false },
+            { "key": "setting.command_mode", "operator": "equal", "operand": false }
+        ]
+    },
+    // Fix documentation comment indentation (line)
+    { "keys": [":"], "command": "osprey_fix_doc_comment_keyword_indent", "args": {"kind": "line"}, "context":
+        [
+            { "key": "selector", "operator": "equal", "operand": "source.osprey - string", "match_all": true },
             { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s*///\\s+(?i:summary|param|returns|throws|remarks)(?:\\s[^:]*)?", "match_all": true },
             { "key": "setting.command_mode", "operator": "equal", "operand": false }
             // auto_complete_visible should usually be false, but in this case, we allow it to be open,
             // for the sake of parameter and type names.
         ]
     },
-    // Create documentation comment
-    // This command is triggered when the line contains any amount of whitespace
-    // plus exactly two slashes. The osprey_create_doc_comment command takes care
-    // of examining surrounding lines and figuring out what needs to be inserted.
-    { "keys": ["/"], "command": "osprey_create_doc_comment", "args": { "trigger": "/" }, "context":
+    // Fix documentation comment indentation (block)
+    { "keys": [":"], "command": "osprey_fix_doc_comment_keyword_indent", "args": {"kind": "block"}, "context":
         [
-            { "key": "selector", "operator": "equal", "operand": "source.osprey", "match_all": true },
-            { "key": "num_selections", "operator": "equal", "operand": 1 },
-            { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s*//$" },
-            { "key": "selection_empty", "operator": "equal", "operand": true },
-            { "key": "auto_complete_visible", "operator": "equal", "operand": false },
+            { "key": "selector", "operator": "equal", "operand": "source.osprey comment.block.documentation", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s*\\*\\s+(?i:summary|param|returns|throws|remarks)(?:\\s[^:]*)?", "match_all": true },
             { "key": "setting.command_mode", "operator": "equal", "operand": false }
+            // auto_complete_visible should usually be false, but in this case, we allow it to be open,
+            // for the sake of parameter and type names.
         ]
     }
 ]
