@@ -8,20 +8,31 @@
             { "key": "setting.command_mode", "operator": "equal", "operand": false }
         ]
     },
-    // Extend block comment (first line)
-    { "keys": ["enter"], "command": "insert_snippet", "args": {"contents": "\n * $0\n "}, "context":
+    // Extend block comment (first line, with */ on same line)
+    { "keys": ["enter"], "command": "insert_snippet", "args": {"contents": "\n * ${0:$TM_SELECTED_TEXT}\n "}, "context":
         [
             { "key": "selector", "operator": "equal", "operand": "source.osprey comment.block", "match_all": true },
-            { "key": "preceding_text", "operator": "regex_contains", "operand": "^\\s*/\\*" },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "^\\s*/\\*", "match_all": true },
+            { "key": "following_text", "operator": "regex_match", "operand": "^\\*/\\s*$", "match_all": true },
+            { "key": "auto_complete_visible", "operator": "equal", "operand": false },
+            { "key": "setting.command_mode", "operator": "equal", "operand": false }
+        ]
+    },
+    // Extend block comment (first line, without */)
+    { "keys": ["enter"], "command": "insert_snippet", "args": {"contents": "\n * ${0:$TM_SELECTED_TEXT}"}, "context":
+        [
+            { "key": "selector", "operator": "equal", "operand": "source.osprey comment.block", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "^\\s*/\\*", "match_all": true },
+            { "key": "following_text", "operator": "not_regex_match", "operand": "^\\*/", "match_all": true },
             { "key": "auto_complete_visible", "operator": "equal", "operand": false },
             { "key": "setting.command_mode", "operator": "equal", "operand": false }
         ]
     },
     // Extend block comment (subsequent lines)
-    { "keys": ["enter"], "command": "insert_snippet", "args": {"contents": "\n${TM_CURRENT_LINE/^\\s*(\\S+).*/$1/} "}, "context":
+    { "keys": ["enter"], "command": "insert_snippet", "args": {"contents": "\n${TM_CURRENT_LINE/^\\s*([^\\s\\p{L}]+).*/$1/} "}, "context":
         [
             { "key": "selector", "operator": "equal", "operand": "source.osprey comment.block", "match_all": true },
-            { "key": "preceding_text", "operator": "not_regex_contains", "operand": "^\\s*/\\*" },
+            { "key": "preceding_text", "operator": "not_regex_contains", "operand": "^\\s*/\\*", "match_all": true },
             { "key": "auto_complete_visible", "operator": "equal", "operand": false },
             { "key": "setting.command_mode", "operator": "equal", "operand": false }
         ]
