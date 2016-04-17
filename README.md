@@ -11,7 +11,7 @@ Currently supported:
 * Syntax highlighting (via `.sublime-syntax` file – works only with ST3 Build 3084 and above)
 * Snippets for various constructs:
   - `pget` for read-only properties (inside class bodies)
-	- `use`, `usea` (use alias), `usef` (use file)
+  - `use`, `usea` (use alias), `usef` (use file)
   - `catch`, `const`, `do–while`, `else`, `finally`, `for`, `if`, `throw`, `try`, `var`, `while`, `with`
 * Comment keyboard shortcuts (Ctrl-`/` / Cmd-`/`; Ctrl-Shift-`/` / Cmd-Shift-`/`)
 * Improved documentation comment editing:
