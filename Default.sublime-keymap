@@ -62,6 +62,7 @@
             { "key": "selector", "operator": "equal", "operand": "source.osprey comment.block" },
             { "key": "num_selections", "operator": "equal", "operand": 1 },
             { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s*/\\*$" },
+            { "key": "following_text", "operator": "regex_match", "operand": "^\\*/" },
             { "key": "selection_empty", "operator": "equal", "operand": true },
             { "key": "auto_complete_visible", "operator": "equal", "operand": false },
             { "key": "setting.command_mode", "operator": "equal", "operand": false }
