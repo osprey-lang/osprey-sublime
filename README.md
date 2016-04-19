@@ -13,7 +13,7 @@ Currently supported:
   - `pget` for read-only properties (inside class bodies)
   - `use`, `usea` (use alias), `usef` (use file)
   - `catch`, `const`, `do–while`, `else`, `finally`, `for`, `if`, `throw`, `try`, `var`, `while`, `with`
-* Comment keyboard shortcuts (Ctrl-`/` / Cmd-`/`; Ctrl-Shift-`/` / Cmd-Shift-`/`)
+* Comment keyboard shortcuts (<kbd>Ctrl</kbd>+<kbd>/</kbd> / <kbd>Cmd</kbd>+<kbd>/</kbd>; <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>/</kbd> / <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>/</kbd>)
 * Improved documentation comment editing:
   - Typing `///` will start a documentation comment, if you are not already in one.
   - The new documentation comment automatically gets parameters from the next line (but only the next line – parameter lists broken over multiple lines are not examined (this may be fixed in a future version))
