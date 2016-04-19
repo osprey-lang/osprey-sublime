@@ -33,9 +33,9 @@ contexts:
   comment:
     - meta_include_prototype: false
     - match: '///.{0,90}(.*)'
-      scope: comment.block.documentation.osprey
+      scope: comment.line.double-slash.documentation.osprey
       captures:
-        1: comment.block.documentation.excess.osprey
+        1: comment.line.double-slash.documentation.excess.osprey
     - match: '/\*\*(?!/)'
       push: block_doc_comment
     - match: '//.*'
