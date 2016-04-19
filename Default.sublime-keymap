@@ -41,6 +41,7 @@
     { "keys": ["backspace"], "command": "run_macro_file", "args": {"file": "Packages/Osprey/macros/delete_block_comment_end.sublime-macro"}, "context":
         [
             { "key": "selector", "operator": "equal", "operand": "source.osprey comment.block", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "/\\*$", "match_all": true },
             { "key": "following_text", "operator": "regex_contains", "operand": "^\\*/", "match_all": true },
             { "key": "setting.command_mode", "operator": "equal", "operand": false }
         ]
