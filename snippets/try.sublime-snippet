@@ -4,7 +4,7 @@ try
 {
 	$0
 }
-	]]></content>
+]]></content>
 	<tabTrigger>try</tabTrigger>
 	<scope>source.osprey</scope>
 	<description>try …</description>

@@ -4,7 +4,7 @@ do
 {
 	$0
 }${1: while ${2:true}};
-	]]></content>
+]]></content>
 	<tabTrigger>do</tabTrigger>
 	<scope>source.osprey</scope>
 	<description>do … while</description>

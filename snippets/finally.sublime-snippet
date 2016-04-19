@@ -4,7 +4,7 @@ finally
 {
 	$0
 }
-	]]></content>
+]]></content>
 	<tabTrigger>finally</tabTrigger>
 	<scope>source.osprey</scope>
 	<description>finally …</description>

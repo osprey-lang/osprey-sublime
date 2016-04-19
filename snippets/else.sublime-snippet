@@ -4,7 +4,7 @@ else
 {
 	$0
 }
-	]]></content>
+]]></content>
 	<tabTrigger>else</tabTrigger>
 	<scope>source.osprey</scope>
 	<description>else …</description>
