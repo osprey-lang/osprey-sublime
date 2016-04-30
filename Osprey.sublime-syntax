@@ -123,13 +123,13 @@ contexts:
     - match: '(?>base|this)\b'
       scope: variable.language.osprey
     # Storage types
-    - match: '(?>const|function|var)\b'
+    - match: '(?>class|const|enum|function|var)\b'
       scope: storage.type.osprey
     # Extension keywords
     - match: '__(?>extern|get_argc|init_type|named_const|primitive)\b'
       scope: keyword.extension.osprey
     # Other keywords
-    - match: '(?>abstract|class|enum|global|inheritable|iter|namespace|new|operator|overridable|override|private|protected|public|static|use)\b'
+    - match: '(?>abstract|global|inheritable|iter|namespace|new|operator|overridable|override|private|protected|public|static|use)\b'
       scope: keyword.other.osprey
     # Reserved keywords
     - match: 'async\b'
