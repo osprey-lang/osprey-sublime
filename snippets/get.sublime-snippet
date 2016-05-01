@@ -4,7 +4,7 @@ private _${1:property};
 /// Summary: $0
 public get ${1:property} = _${1:property};
 ]]></content>
-	<tabTrigger>pget</tabTrigger>
+	<tabTrigger>get</tabTrigger>
 	<scope>meta.class.body.osprey - meta.class.member</scope>
 	<description>Readonly property</description>
 </snippet>
