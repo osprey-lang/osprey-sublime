@@ -267,6 +267,7 @@ contexts:
       pop: true
 
   property_definition:
+    - meta_scope: meta.class.member.property.osprey
     # Indexer accessor parameter list
     - match: '\['
       scope: meta.brace.square.open.osprey
@@ -278,7 +279,7 @@ contexts:
     # Property accessor with block body
     - match: '{'
       scope: meta.brace.curly.open.osprey
-      set: curly_brace
+      set: property_block_body
     # Property accessor without a body (probably abstract)
     - match: ';'
       pop: true
@@ -287,6 +288,7 @@ contexts:
     - include: tokens
 
   indexer_parameter_list:
+    - meta_scope: meta.class.member.property.osprey
     - match: '\]'
       scope: meta.brace.square.close.osprey
       pop: true
@@ -302,21 +304,31 @@ contexts:
     - include: punctuation
 
   property_expr_body:
+    - meta_scope: meta.class.member.property.osprey
     - match: ';'
       pop: true
     # Good enough
     - include: tokens
 
+  property_block_body:
+    - meta_scope: meta.class.member.property.osprey
+    - include: curly_brace
+
   method_body:
+    - meta_scope: meta.class.member.method.osprey
     # Block body
     - match: '\{'
       scope: meta.brace.curly.open.osprey
-      set: curly_brace
+      set: method_block_body
     # No body (probably abstract)
     - match: ';'
       pop: true
     # Allow extension keywords to be used as well
     - include: tokens
+
+  method_block_body:
+    - meta_scope: meta.class.member.method.osprey
+    - include: curly_brace
 
   field_definition:
     # End of definition
@@ -333,6 +345,7 @@ contexts:
     - include: tokens
 
   field_value:
+    - meta_scope: meta.class.member.field.osprey
     # After a comma, there might be another field
     - match: ','
       set: field_definition
@@ -342,6 +355,7 @@ contexts:
     - include: tokens
 
   annotation:
+    - meta_scope: meta.annotation.osprey
     # The rules gets a bit messy here... basically, allow keywords, '.', ':', identifier
     # and '('. If we find anything else, including EOL, it's the end of the annotation.
     # ':' is permitted so that annotations like "!global: Foo" can be highlighted correctly.
@@ -354,10 +368,14 @@ contexts:
     # Arguments to the constructor; optional
     - match: '\('
       scope: meta.brace.round.open.osprey
-      set: parenthesis
+      set: annotation_arguments
     # End of line, or anything else that isn't whitespace
     - match: '(?=$|\S)'
       pop: true
+
+  annotation_arguments:
+    - meta_scope: meta.annotation.osprey
+    - include: parenthesis
 
   enum_definition:
     - meta_include_prototype: false
