@@ -10,7 +10,7 @@ Currently supported:
 
 * Syntax highlighting (via `.sublime-syntax` file – works only with ST3 Build 3084 and above).
 * Snippets for various constructs:
-  - `pget` for read-only properties (inside class bodies)
+  - `get` for read-only properties, `prop` for read-write properties (inside class bodies)
   - `use`, `usea` (use alias), `usef` (use file)
   - `catch`, `const`, `do–while`, `else`, `finally`, `for`, `if`, `throw`, `try`, `var`, `while`, `with`
 * Standard keyboard shortcuts for toggling comments (Default: <kbd>Ctrl/Cmd</kbd>+<kbd>/</kbd>, <kbd>Ctrl/Cmd</kbd>+<kbd>Shift</kbd>+<kbd>/</kbd>).
