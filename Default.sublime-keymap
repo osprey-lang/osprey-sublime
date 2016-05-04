@@ -14,7 +14,6 @@
             { "key": "selector", "operator": "equal", "operand": "source.osprey comment.block", "match_all": true },
             { "key": "preceding_text", "operator": "regex_contains", "operand": "^\\s*/\\*", "match_all": true },
             { "key": "following_text", "operator": "regex_match", "operand": "^\\*/\\s*$", "match_all": true },
-            { "key": "auto_complete_visible", "operator": "equal", "operand": false },
             { "key": "setting.command_mode", "operator": "equal", "operand": false }
         ]
     },
@@ -24,7 +23,6 @@
             { "key": "selector", "operator": "equal", "operand": "source.osprey comment.block", "match_all": true },
             { "key": "preceding_text", "operator": "regex_contains", "operand": "^\\s*/\\*", "match_all": true },
             { "key": "following_text", "operator": "not_regex_match", "operand": "^\\*/", "match_all": true },
-            { "key": "auto_complete_visible", "operator": "equal", "operand": false },
             { "key": "setting.command_mode", "operator": "equal", "operand": false }
         ]
     },
@@ -33,7 +31,6 @@
         [
             { "key": "selector", "operator": "equal", "operand": "source.osprey comment.block", "match_all": true },
             { "key": "preceding_text", "operator": "not_regex_contains", "operand": "^\\s*/\\*", "match_all": true },
-            { "key": "auto_complete_visible", "operator": "equal", "operand": false },
             { "key": "setting.command_mode", "operator": "equal", "operand": false }
         ]
     },
@@ -74,7 +71,6 @@
         [
             { "key": "selector", "operator": "equal", "operand": "source.osprey - string", "match_all": true },
             { "key": "preceding_text", "operator": "regex_contains", "operand": "^\\s*///", "match_all": true },
-            { "key": "auto_complete_visible", "operator": "equal", "operand": false },
             { "key": "setting.command_mode", "operator": "equal", "operand": false }
         ]
     },
@@ -82,7 +78,6 @@
     { "keys": ["enter"], "command": "insert", "args": {"characters": "\n*          "}, "context":
         [
             { "key": "selector", "operator": "equal", "operand": "source.osprey comment.block.documentation", "match_all": true },
-            { "key": "auto_complete_visible", "operator": "equal", "operand": false },
             { "key": "setting.command_mode", "operator": "equal", "operand": false }
         ]
     },
@@ -92,8 +87,6 @@
             { "key": "selector", "operator": "equal", "operand": "source.osprey - string", "match_all": true },
             { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s*///\\s+(?i:summary|param|returns|throws|remarks)(?:\\s[^:]*)?", "match_all": true },
             { "key": "setting.command_mode", "operator": "equal", "operand": false }
-            // auto_complete_visible should usually be false, but in this case, we allow it to be open,
-            // for the sake of parameter and type names.
         ]
     },
     // Fix documentation comment indentation (block)
@@ -102,8 +95,6 @@
             { "key": "selector", "operator": "equal", "operand": "source.osprey comment.block.documentation", "match_all": true },
             { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s*\\*\\s+(?i:summary|param|returns|throws|remarks)(?:\\s[^:]*)?", "match_all": true },
             { "key": "setting.command_mode", "operator": "equal", "operand": false }
-            // auto_complete_visible should usually be false, but in this case, we allow it to be open,
-            // for the sake of parameter and type names.
         ]
     }
 ]
