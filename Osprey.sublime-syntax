@@ -165,7 +165,7 @@ contexts:
       scope: keyword.operator.osprey
       push: conditional_expression
     # Various operators
-    - match: '~|[+|/%&^#$!=]=?|-[>=]?|\*\*?=?|<=>|>>?=?|<<?=?|::=?|\?[?!]'
+    - match: '~|[+|/%&^#$!=]=?|-[>=]?|\*\*?=?|<=>|>>?=?|<<?=?|::=?|\?[?!]|=>'
       scope: keyword.operator.osprey
     # Brackets
     - match: '\('
