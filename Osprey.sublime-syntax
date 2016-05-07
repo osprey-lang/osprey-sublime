@@ -216,6 +216,8 @@ contexts:
     - match: '\{'
       scope: meta.brace.curly.open.osprey
       set: namespace_body
+    - match: ';'
+      pop: true
     - include: tokens
 
   namespace_body:
