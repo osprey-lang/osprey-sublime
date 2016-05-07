@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<!--
+	Things we want to show in the indexed symbol list:
+		- Types (classes and enums)
+		- Functions
+		- Methods
+		- Properties
+		- Enum fields
+
+	Since the Osprey syntax file uses entity.name.* for all name definitions,
+	Sublime's default rules can take care of types, functions and methods for
+	us, so there's no need to define them here.
+
+	NOTE: Don't attempt to pretty up the scope selectors by putting newlines in
+	them, please! Sublime treats newlines differently from other white space,
+	for some reason.
+-->
+<dict>
+	<key>name</key>
+	<string>Symbol List: Local and indexed</string>
+	<key>scope</key>
+	<string>source.osprey entity.name.property.osprey, source.osprey entity.name.field.enum.osprey</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>showInIndexedSymbolList</key>
+		<integer>1</integer>
+	</dict>
+	<key>uuid</key>
+	<string>9152244a-53a8-4f57-bf1a-198b82503d4e</string>
+</dict>
+</plist>

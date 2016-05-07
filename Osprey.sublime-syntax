@@ -279,7 +279,7 @@ contexts:
       push: [method_body, parameter_list]
     # Iterator declaration
     - match: 'iter\b'
-      scope: keyword.other.osprey
+      scope: meta.iterator.osprey keyword.other.osprey
       push: method_body
     # Annotation
     - match: '!'
@@ -303,7 +303,7 @@ contexts:
       scope: keyword.operator.osprey
       set: property_expr_body
     # Property accessor with block body
-    - match: '{'
+    - match: '\{'
       scope: meta.brace.curly.open.osprey
       set: property_block_body
     # Property accessor without a body (probably abstract)

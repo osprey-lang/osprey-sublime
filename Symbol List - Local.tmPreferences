@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<!--
+	Things we want only in the local symbol list:
+		- Fields (these are usually private)
+		- Iterators (too unspecific)
+		- Operator overloads (not really named, and seeing 'operator ==' in the
+		  indexed symbol list is meaningless)
+
+	Operator overloads are in "Symbol List - Operators", because they require a
+	transformation.
+
+	NOTE: Don't attempt to pretty up the scope selectors by putting newlines in
+	them, please! Sublime treats newlines differently from other white space,
+	for some reason.
+-->
+<dict>
+	<key>name</key>
+	<string>Symbol List: Local only</string>
+	<key>scope</key>
+	<string>source.osprey entity.name.field.class.osprey, source.osprey meta.iterator.osprey</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>showInIndexedSymbolList</key>
+		<integer>0</integer>
+	</dict>
+	<key>uuid</key>
+	<string>0b9f72c3-2938-484a-979d-c95c0cb1e47d</string>
+</dict>
+</plist>
