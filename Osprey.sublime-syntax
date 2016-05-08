@@ -218,6 +218,8 @@ contexts:
       set: namespace_body
     - match: ';'
       pop: true
+    - match: '{{ident_no_kw}}'
+      scope: entity.name.namespace.osprey
     - include: tokens
 
   namespace_body:
