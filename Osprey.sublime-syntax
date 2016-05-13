@@ -159,7 +159,7 @@ contexts:
       scope: keyword.operator.osprey
       push: conditional_expression
     # Various operators
-    - match: '~|[+|/%&^#$!=]=?|-[>=]?|\*\*?=?|<=>|>>?=?|<<?=?|::=?|\?[?!]|=>'
+    - match: '~|[+|/%&^!=]=?|-[>=]?|\*\*?=?|<=>|>>?=?|<<?=?|::=?|\?[?!]|=>'
       scope: keyword.operator.osprey
     # Brackets
     - match: '\('
@@ -273,7 +273,7 @@ contexts:
       scope: entity.name.field.class.osprey
       push: field_definition
     # Operator overload declaration
-    - match: '(operator)\s*([~+-|^/%&#$]|\*\*?|<(?:<|=>)|>>?|==)\s*(\()'
+    - match: '(operator)\s*([~+-|^/%&]|\*\*?|<(?:<|=>)|>>?|==)\s*(\()'
       captures:
         1: keyword.other.osprey
         2: entity.name.operator.osprey
