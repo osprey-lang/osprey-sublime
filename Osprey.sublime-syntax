@@ -173,7 +173,7 @@ contexts:
       push: curly_brace
 
   conditional_expression:
-    - match: ':'
+    - match: ':(?!:)'
       scope: keyword.operator.osprey
       pop: true
     - include: tokens
