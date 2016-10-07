@@ -6,7 +6,7 @@ scope: source.osprey
 
 variables:
   ident: '\\?[\p{L}_][\p{L}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\p{Cf}_]*'
-  ident_no_kw: '(?!(?>a(?>bstract|nd|sync)|b(?>ase|reak)|c(?>atch|lass|onst)|do|e(?>lse|num)|f(?>alse|inally|or|unction)|global|i(?>f|nheritable|n|s|ter)|n(?>amespace|ew|ext|ot|ull)|o(?>perator|r|verridable|verride)|p(?>rivate|rotected|ublic)|r(?>efeq|ef|eturn)|static|t(?>his|hrow|rue|ry|ypeof)|use|var|w(?>hile|ith)|xor|yield)\b){{ident}}'
+  ident_no_kw: '(?!(?>a(?>bstract|nd|sync)|b(?>ase|reak)|c(?>atch|lass|onst)|do|e(?>lse|num)|f(?>alse|inally|or|unction)|global|i(?>f|nheritable|nternal|n|s|ter)|n(?>amespace|ew|ext|ot|ull)|o(?>perator|r|verridable|verride)|p(?>rivate|rotected|ublic)|r(?>efeq|ef|eturn)|static|t(?>his|hrow|rue|ry|ypeof)|use|var|w(?>hile|ith)|xor|yield)\b){{ident}}'
 
 contexts:
   prototype:
@@ -123,7 +123,7 @@ contexts:
     - match: '__(?>extern|get_argc|init_type|named_const|primitive)\b'
       scope: keyword.extension.osprey
     # Other keywords
-    - match: '(?>abstract|global|inheritable|iter|new|operator|overridable|override|private|protected|public|static|use)\b'
+    - match: '(?>abstract|global|inheritable|internal|iter|new|operator|overridable|override|private|protected|public|static|use)\b'
       scope: keyword.other.osprey
     # Reserved keywords
     - match: 'async\b'
