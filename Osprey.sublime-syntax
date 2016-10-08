@@ -253,7 +253,7 @@ contexts:
         1: keyword.other.osprey
         2: entity.name.property.osprey
         3: keyword.other.osprey
-      push: property_definition
+      set: property_definition
     # Type initializer (non-standard extension)
     - match: '(__init_type)\s*(\()'
       captures:
@@ -267,22 +267,22 @@ contexts:
         1: entity.name.function.osprey
         2: keyword.other.osprey
         3: meta.brace.round.open.osprey
-      push: [method_body, parameter_list]
+      set: [method_body, parameter_list]
     # Field or constant declaration
     - match: '({{ident_no_kw}})(?!\s*\()'
       scope: entity.name.field.class.osprey
-      push: field_definition
+      set: field_definition
     # Operator overload declaration
     - match: '(operator)\s*([~+-|^/%&]|\*\*?|<(?:<|=>)|>>?|==)\s*(\()'
       captures:
         1: keyword.other.osprey
         2: entity.name.operator.osprey
         3: meta.brace.round.open.osprey
-      push: [method_body, parameter_list]
+      set: [method_body, parameter_list]
     # Iterator declaration
     - match: 'iter\b'
       scope: meta.iterator.osprey keyword.other.osprey
-      push: method_body
+      set: method_body
     # Annotation
     - match: '!'
       scope: keyword.operator.osprey
@@ -310,13 +310,16 @@ contexts:
       set: property_block_body
     # Property accessor without a body (probably abstract)
     - match: ';'
+      set: class_body
+    # End of class
+    - match: '\}'
+      scope: 'meta.brace.curly.close.osprey'
       pop: true
     # This might screw up syntactically broken property accessor definitions,
     # but it'll be okay
     - include: tokens
 
   indexer_parameter_list:
-    - meta_scope: meta.class.member.property.osprey
     - match: '\]'
       scope: meta.brace.square.close.osprey
       pop: true
@@ -333,7 +336,12 @@ contexts:
 
   property_expr_body:
     - meta_scope: meta.class.member.property.osprey
+    # End of property declaration
     - match: ';'
+      set: class_body
+    # End of class
+    - match: '\}'
+      scope: 'meta.brace.curly.close.osprey'
       pop: true
     # Good enough
     - include: tokens
@@ -348,8 +356,12 @@ contexts:
     - match: '\{'
       scope: meta.brace.curly.open.osprey
       set: method_block_body
-    # No body (probably abstract)
+    # No body (probably abstract or __extern)
     - match: ';'
+      set: class_body
+    # End of class
+    - match: '\}'
+      scope: 'meta.brace.curly.close.osprey'
       pop: true
     # Allow extension keywords to be used as well
     - include: tokens
@@ -361,6 +373,10 @@ contexts:
   field_definition:
     # End of definition
     - match: ';'
+      set: class_body
+    # End of class
+    - match: '\}'
+      scope: 'meta.brace.curly.close.osprey'
       pop: true
     # Field with value
     - match: '='
@@ -379,6 +395,10 @@ contexts:
       set: field_definition
     # After a semicolon, not so much
     - match: ';'
+      set: class_body
+    # End of class
+    - match: '\}'
+      scope: 'meta.brace.curly.close.osprey'
       pop: true
     - include: tokens
 
@@ -458,7 +478,21 @@ contexts:
         1: storage.type.osprey
         2: entity.name.function.osprey
         3: meta.brace.round.open.osprey
-      push: [method_body, parameter_list]
+      push: [function_body, parameter_list]
+
+  function_body:
+    # Block body
+    - match: '\{'
+      scope: meta.brace.curly.open.osprey
+      set: function_block_body
+    # No body (probably __extern)
+    - match: ';'
+      pop: true
+    # Allow extension keywords to be used as well
+    - include: tokens
+
+  function_block_body:
+    - include: curly_brace
 
   parameter_list:
     - match: '\)'
