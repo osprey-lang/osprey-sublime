@@ -273,7 +273,7 @@ contexts:
       scope: entity.name.field.class.osprey
       set: field_definition
     # Operator overload declaration
-    - match: '(operator)\s*([~+-|^/%&]|\*\*?|<(?:<|=>)|>>?|==)\s*(\()'
+    - match: '(operator)\s*([~+\-|^/%&]|\*\*?|<(?:<|=>)|>>|==)\s*(\()'
       captures:
         1: keyword.other.osprey
         2: entity.name.operator.osprey
