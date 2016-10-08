@@ -348,7 +348,7 @@ contexts:
 
   property_block_body:
     - meta_scope: meta.class.member.property.osprey
-    - include: curly_brace
+    - include: curly_braced_class_member
 
   method_body:
     - meta_scope: meta.class.member.method.osprey
@@ -368,7 +368,13 @@ contexts:
 
   method_block_body:
     - meta_scope: meta.class.member.method.osprey
-    - include: curly_brace
+    - include: curly_braced_class_member
+
+  curly_braced_class_member:
+    - match: '\}'
+      scope: meta.brace.curly.close.osprey
+      set: class_body
+    - include: tokens
 
   field_definition:
     # End of definition
