@@ -158,6 +158,9 @@ contexts:
     - match: '\?(?![.\[\(?!])'
       scope: keyword.operator.osprey
       push: conditional_expression
+    # ...
+    - match: '\.\.\.'
+      scope: keyword.operator.ellipsis.osprey
     # Various operators
     - match: '~|[+|/%&^!=]=?|-[>=]?|\*\*?=?|<=>|>>?=?|<<?=?|::=?|\?[?!]|=>'
       scope: keyword.operator.osprey
