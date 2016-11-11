@@ -304,7 +304,7 @@ contexts:
       scope: meta.brace.square.open.osprey
       push: indexer_parameter_list
     # Property accessor with expression getter
-    - match: '='
+    - match: '=>'
       scope: keyword.operator.osprey
       set: property_expr_body
     # Property accessor with block body
