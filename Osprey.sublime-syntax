@@ -77,7 +77,7 @@ contexts:
 
   escape:
     - meta_include_prototype: false
-    - match: '\\(?>["''\\0abnrt_-]|u\h{4}|U\h{8})'
+    - match: '\\(?>["''\\0abnrt_-]|u\{\h+\})'
       scope: constant.character.escape.osprey
 
   char:
