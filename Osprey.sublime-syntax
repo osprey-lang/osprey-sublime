@@ -53,9 +53,11 @@ contexts:
     - meta_include_prototype: false
     # Verbatim string literal: r"..."
     - match: '[rR]"'
+      scope: punctuation.definition.string.begin
       push: verbatim_string
     # Regular string literal: "..."
     - match: '"'
+      scope: punctuation.definition.string.begin
       push: regular_string
 
   verbatim_string:
@@ -66,6 +68,7 @@ contexts:
     - match: '""'
       scope: constant.character.escape.osprey
     - match: '"(?!")'
+      scope: punctuation.definition.string.end
       pop: true
 
   regular_string:
@@ -73,6 +76,7 @@ contexts:
     - meta_scope: string.quoted.double.osprey
     - include: escape
     - match: '"'
+      scope: punctuation.definition.string.end
       pop: true
 
   escape:
@@ -84,6 +88,7 @@ contexts:
     - meta_include_prototype: false
     # Character literal: 'x' (technically only one character, but the regex here allows any number)
     - match: ''''
+      scope: punctuation.definition.string.begin
       push: char_literal
 
   char_literal:
@@ -91,6 +96,7 @@ contexts:
     - meta_scope: string.quoted.single.osprey
     - include: escape
     - match: ''''
+      scope: punctuation.definition.string.end
       pop: true
 
   number:
@@ -109,7 +115,7 @@ contexts:
       scope: keyword.control.osprey
     # Keyword operators
     - match: '(?>and|in|is|not|or|refeq|ref|typeof|xor)\b' # Don't reorder ref and refeq; atomic group!
-      scope: keyword.operator.osprey
+      scope: keyword.operator.word.osprey
     # Keyword constants
     - match: '(?>false|null|true)\b'
       scope: constant.language.osprey
@@ -119,11 +125,14 @@ contexts:
     # Storage types
     - match: '(?>class|const|enum|function|let|namespace|var)\b'
       scope: storage.type.osprey
+    # Storage modifiers
+    - match: '(?>abstract|inheritable|internal|overridable|override|private|protected|public|static)\b'
+      scope: storage.modifier.osprey
     # Extension keywords
     - match: '__(?>extern|get_argc|init_type|named_const|primitive)\b'
-      scope: keyword.extension.osprey
+      scope: keyword.other.extension.osprey
     # Other keywords
-    - match: '(?>abstract|global|inheritable|internal|iter|new|operator|overridable|override|private|protected|public|static|use)\b'
+    - match: '(?>global|iter|new|operator|use)\b'
       scope: keyword.other.osprey
     # Reserved keywords
     - match: 'async\b'
@@ -144,7 +153,7 @@ contexts:
     - match: '(@)\s*(\()'
       captures:
         1: keyword.operator.at.osprey
-        2: meta.brace.round.open.osprey
+        2: punctuation.section.parens.begin.osprey
       push: parameter_list
     # @ followed by identifier - the identifier is a parameter name
     - match: '(@)\s*({{ident_no_kw}})'
@@ -166,13 +175,13 @@ contexts:
       scope: keyword.operator.osprey
     # Brackets
     - match: '\('
-      scope: meta.brace.round.open.osprey
+      scope: punctuation.section.parens.begin.osprey
       push: parenthesis
     - match: '\['
-      scope: meta.brace.square.open.osprey
+      scope: punctuation.section.brackets.begin.osprey
       push: square_bracket
     - match: '\{'
-      scope: meta.brace.curly.open.osprey
+      scope: punctuation.section.braces.begin.osprey
       push: curly_brace
 
   conditional_expression:
@@ -182,20 +191,23 @@ contexts:
     - include: tokens
 
   parenthesis:
+    - meta_scope: meta.parens
     - match: '\)'
-      scope: meta.brace.round.close.osprey
+      scope: punctuation.section.parens.end.osprey
       pop: true
     - include: tokens
 
   square_bracket:
+    - meta_scope: meta.brackets
     - match: '\]'
-      scope: meta.brace.square.close.osprey
+      scope: punctuation.section.brackets.end.osprey
       pop: true
     - include: tokens
 
   curly_brace:
+    - meta_scope: meta.braces
     - match: '\}'
-      scope: meta.brace.curly.close.osprey
+      scope: punctuation.section.braces.end.osprey
       pop: true
     - include: tokens
 
@@ -217,7 +229,7 @@ contexts:
 
   namespace_definition_meta:
     - match: '\{'
-      scope: meta.brace.curly.open.osprey
+      scope: punctuation.section.braces.begin.osprey
       set: namespace_body
     - match: ';'
       pop: true
@@ -228,7 +240,7 @@ contexts:
   namespace_body:
     - meta_scope: meta.namespace.body.osprey
     - match: '\}'
-      scope: meta.brace.curly.close.osprey
+      scope: punctuation.section.braces.end.osprey
       pop: true
     - include: namespace_contents
 
@@ -239,16 +251,17 @@ contexts:
       captures:
         1: storage.type.osprey
         2: keyword.other.osprey
-        3: entity.name.type.class.osprey
+        3: entity.name.class.osprey
       push: class_definition_meta
 
   class_definition_meta:
     - match: '\{'
+      scope: punctuation.section.braces.begin.osprey
       set: class_body
     - include: tokens
 
   class_body:
-    - meta_scope: meta.class.body.osprey
+    - meta_scope: meta.braces meta.class.body.osprey
     # Property accessor declaration
     - match: '(get|set)\s+(?:({{ident_no_kw}})|(this\b))'
       scope: meta.property.osprey
@@ -261,15 +274,15 @@ contexts:
     - match: '(__init_type)\s*(\()'
       captures:
         1: keyword.extension.osprey
-        2: meta.brace.round.open.osprey
+        2: punctuation.section.parens.begin.osprey
       push: parenthesis
     # Method declaration
     - match: '(?:({{ident_no_kw}})|(new|this)\b)\s*(\()'
       scope: meta.function.osprey
       captures:
-        1: entity.name.function.osprey
+        1: entity.name.function.method.osprey
         2: keyword.other.osprey
-        3: meta.brace.round.open.osprey
+        3: punctuation.section.parens.begin.osprey
       set: [method_body, parameter_list]
     # Field or constant declaration
     - match: '({{ident_no_kw}})(?!\s*\()'
@@ -278,13 +291,13 @@ contexts:
     # Operator overload declaration
     - match: '(operator)\s*([~+\-|^/%&]|\*\*?|<(?:<|=>)|>>|==)\s*(\()'
       captures:
-        1: keyword.other.osprey
+        1: storage.type.osprey
         2: entity.name.operator.osprey
-        3: meta.brace.round.open.osprey
+        3: punctuation.section.parens.begin.osprey
       set: [method_body, parameter_list]
     # Iterator declaration
     - match: 'iter\b'
-      scope: meta.iterator.osprey keyword.other.osprey
+      scope: meta.iterator.osprey storage.type.osprey
       set: method_body
     # Annotation
     - match: '!'
@@ -294,14 +307,14 @@ contexts:
     - include: tokens
     # End of class
     - match: '\}'
-      scope: 'meta.brace.curly.close.osprey'
+      scope: 'punctuation.section.braces.end.osprey'
       pop: true
 
   property_definition:
     - meta_scope: meta.class.member.property.osprey
     # Indexer accessor parameter list
     - match: '\['
-      scope: meta.brace.square.open.osprey
+      scope: punctuation.section.brackets.begin.osprey
       push: indexer_parameter_list
     # Property accessor with expression getter
     - match: '=>'
@@ -309,14 +322,14 @@ contexts:
       set: property_expr_body
     # Property accessor with block body
     - match: '\{'
-      scope: meta.brace.curly.open.osprey
+      scope: punctuation.section.braces.begin.osprey
       set: property_block_body
     # Property accessor without a body (probably abstract)
     - match: ';'
       set: class_body
     # End of class
     - match: '\}'
-      scope: 'meta.brace.curly.close.osprey'
+      scope: 'punctuation.section.braces.end.osprey'
       pop: true
     # This might screw up syntactically broken property accessor definitions,
     # but it'll be okay
@@ -324,7 +337,7 @@ contexts:
 
   indexer_parameter_list:
     - match: '\]'
-      scope: meta.brace.square.close.osprey
+      scope: punctuation.section.brackets.end.osprey
       pop: true
     # Unlike parameter_list, an indexer accessor parameter list can only contain "simple"
     # parameters, i.e. plain identifiers. For performance, inline the members of 'tokens'.
@@ -344,38 +357,38 @@ contexts:
       set: class_body
     # End of class
     - match: '\}'
-      scope: 'meta.brace.curly.close.osprey'
+      scope: 'punctuation.section.braces.end.osprey'
       pop: true
     # Good enough
     - include: tokens
 
   property_block_body:
-    - meta_scope: meta.class.member.property.osprey
+    - meta_scope: meta.braces meta.class.member.property.osprey
     - include: curly_braced_class_member
 
   method_body:
     - meta_scope: meta.class.member.method.osprey
     # Block body
     - match: '\{'
-      scope: meta.brace.curly.open.osprey
+      scope: punctuation.section.braces.begin.osprey
       set: method_block_body
     # No body (probably abstract or __extern)
     - match: ';'
       set: class_body
     # End of class
     - match: '\}'
-      scope: 'meta.brace.curly.close.osprey'
+      scope: 'punctuation.section.braces.end.osprey'
       pop: true
     # Allow extension keywords to be used as well
     - include: tokens
 
   method_block_body:
-    - meta_scope: meta.class.member.method.osprey
+    - meta_scope: meta.braces meta.class.member.method.osprey
     - include: curly_braced_class_member
 
   curly_braced_class_member:
     - match: '\}'
-      scope: meta.brace.curly.close.osprey
+      scope: punctuation.section.braces.end.osprey
       set: class_body
     - include: tokens
 
@@ -385,7 +398,7 @@ contexts:
       set: class_body
     # End of class
     - match: '\}'
-      scope: 'meta.brace.curly.close.osprey'
+      scope: 'punctuation.section.braces.end.osprey'
       pop: true
     # Field with value
     - match: '='
@@ -407,7 +420,7 @@ contexts:
       set: class_body
     # End of class
     - match: '\}'
-      scope: 'meta.brace.curly.close.osprey'
+      scope: 'punctuation.section.braces.end.osprey'
       pop: true
     - include: tokens
 
@@ -424,7 +437,7 @@ contexts:
     - match: '[.:]'
     # Arguments to the constructor; optional
     - match: '\('
-      scope: meta.brace.round.open.osprey
+      scope: punctuation.section.parens.begin.osprey
       set: annotation_arguments
     # End of line, or anything else that isn't whitespace
     - match: '(?=$|\S)'
@@ -437,24 +450,26 @@ contexts:
   enum_definition:
     - meta_include_prototype: false
     - match: '(enum(?:\s+set)?)\s+({{ident_no_kw}})'
-      scope: meta.class.osprey
+      scope: meta.enum.osprey
       captures:
         1: storage.type.osprey
-        2: entity.name.type.enum.osprey
+        2: entity.name.enum.osprey
       push: enum_definition_meta
 
   enum_definition_meta:
+    - meta_scope: meta.enum.osprey
     - match: '\{'
-      scope: meta.brace.curly.open.osprey
+      scope: punctuation.section.braces.begin.osprey
       set: enum_body
     - include: tokens
 
   enum_body:
+    - meta_scope: meta.enum.osprey
     - match: '\}'
-      scope: meta.brace.curly.close.osprey
+      scope: punctuation.section.braces.end.osprey
       pop: true
     - match: '{{ident_no_kw}}'
-      scope: entity.name.field.enum.osprey
+      scope: entity.name.constant.enum-field.osprey
       set: enum_field_definition
     - match: '!'
       scope: keyword.operator.osprey
@@ -462,8 +477,9 @@ contexts:
     - include: tokens
 
   enum_field_definition:
+    - meta_scope: meta.enum.osprey
     - match: '\}'
-      scope: meta.brace.curly.close.osprey
+      scope: punctuation.section.braces.end.osprey
       pop: true
     - match: ','
       set: enum_body
@@ -473,8 +489,9 @@ contexts:
     - include: tokens
 
   enum_field_value:
+    - meta_scope: meta.enum.osprey
     - match: '\}'
-      scope: meta.brace.curly.close.osprey
+      scope: punctuation.section.braces.end.osprey
       pop: true
     - match: ','
       set: enum_body
@@ -485,14 +502,14 @@ contexts:
       scope: meta.function.osprey
       captures:
         1: storage.type.osprey
-        2: entity.name.function.osprey
-        3: meta.brace.round.open.osprey
+        2: entity.name.function.global.osprey
+        3: punctuation.section.parens.begin.osprey
       push: [function_body, parameter_list]
 
   function_body:
     # Block body
     - match: '\{'
-      scope: meta.brace.curly.open.osprey
+      scope: punctuation.section.braces.begin.osprey
       set: function_block_body
     # No body (probably __extern)
     - match: ';'
@@ -505,7 +522,7 @@ contexts:
 
   parameter_list:
     - match: '\)'
-      scope: meta.brace.round.close.osprey
+      scope: punctuation.section.parens.end.osprey
       pop: true
     - match: '='
       scope: keyword.operator.osprey
@@ -517,14 +534,13 @@ contexts:
     - include: keyword
     - match: '{{ident}}'
       scope: variable.parameter.osprey
-    - include: identifier
     - include: punctuation
 
   default_parameter_value:
     - match: ','
       set: parameter_list
     - match: '\)'
-      scope: meta.brace.round.close.osprey
+      scope: punctuation.section.parens.end.osprey
       pop: true
     - include: tokens
 ...

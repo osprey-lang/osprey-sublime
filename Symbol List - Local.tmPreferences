@@ -9,7 +9,7 @@
 		  indexed symbol list is meaningless)
 
 	Operator overloads are in "Symbol List - Operators", because they require a
-	transformation.
+	different transformation.
 
 	NOTE: Don't attempt to pretty up the scope selectors by putting newlines in
 	them, please! Sublime treats newlines differently from other white space,
@@ -22,6 +22,11 @@
 	<string>source.osprey entity.name.field.class.osprey, source.osprey meta.iterator.osprey</string>
 	<key>settings</key>
 	<dict>
+		<!-- Indent each member under its type -->
+		<key>symbolTransformation</key>
+		<string>
+			s/^/      /g;
+		</string>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>showInIndexedSymbolList</key>

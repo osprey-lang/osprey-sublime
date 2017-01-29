@@ -9,8 +9,9 @@
 		- Properties
 		- Enum fields
 
-	This file contains type definitions and global functions only. Properties and
-	enum fields require a transformation; see "Symbol List - Global (Type Members)".
+	This file contains symbols for global type members, i.e. properties and enum
+	fields, because they require a transformation in the local symbol list. See
+	"Symbol List - Global" for the rest.
 
 	NOTE: Don't attempt to pretty up the scope selectors by putting newlines in
 	them, please! Sublime treats newlines differently from other white space,
@@ -20,9 +21,14 @@
 	<key>name</key>
 	<string>Symbol List: Local and indexed</string>
 	<key>scope</key>
-	<string>source.osprey entity.name.class.osprey, source.osprey entity.name.enum.osprey, source.osprey entity.name.function.global.osprey</string>
+	<string>source.osprey entity.name.function.method.osprey, source.osprey entity.name.property.osprey, source.osprey entity.name.constant.enum-field.osprey</string>
 	<key>settings</key>
 	<dict>
+		<!-- Indent each member under its type -->
+		<key>symbolTransformation</key>
+		<string>
+			s/^/      /g;
+		</string>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>showInIndexedSymbolList</key>

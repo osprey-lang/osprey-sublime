@@ -8,8 +8,8 @@
 		- Operator overloads (not really named, and seeing 'operator ==' in the
 		  indexed symbol list is meaningless)
 
-	This file defines only operator overloads, because they require a transformation.
-	See "Symbol List - Local" for the rest of the local-only symbols.
+	This file defines only operator overloads, because they require a different
+	transformation. See "Symbol List - Local" for the remaining local-only symbols.
 
 	NOTE: Don't attempt to pretty up the scope selectors by putting newlines in
 	them, please! Sublime treats newlines differently from other white space,
@@ -22,9 +22,10 @@
 	<string>source.osprey entity.name.operator.osprey</string>
 	<key>settings</key>
 	<dict>
+		<!-- Indent each operator under its type -->
 		<key>symbolTransformation</key>
 		<string>
-			s/^/operator /g;
+			s/^/      operator /g;
 		</string>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
