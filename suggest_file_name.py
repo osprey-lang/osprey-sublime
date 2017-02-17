@@ -5,7 +5,7 @@ MAX_TITLE_LENGTH = 52
 
 SELECTORS = [
     # First attempt: the first defined type name
-    'source.osprey entity.name.type',
+    'source.osprey entity.name.class, source.osprey entity.name.enum',
     # Second attempt: the first defined function
     # Note: this is basically guaranteed to be a
     # global function, because you can't declare
