@@ -1,7 +1,6 @@
 <snippet>
 	<content><![CDATA[
-else if ${1:true}
-{
+else if ${1:true} {
 	$0
 }
 ]]></content>

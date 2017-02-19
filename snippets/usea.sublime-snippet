@@ -1,8 +1,8 @@
 <snippet>
 	<content><![CDATA[
-use ${1:alias} = ${2:member};
+use ${1:member} as ${2:alias};
 ]]></content>
 	<tabTrigger>usea</tabTrigger>
 	<scope>source.osprey</scope>
-	<description>use … = …;</description>
+	<description>use … as …;</description>
 </snippet>

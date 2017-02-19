@@ -1,7 +1,6 @@
 <snippet>
 	<content><![CDATA[
-with ${1:x} = ${2:expr}
-{
+with ${1:x} = ${2:expr} {
 	$0
 }
 ]]></content>

@@ -1,7 +1,6 @@
 <snippet>
 	<content><![CDATA[
-for ${1:item} in ${2:list}
-{
+for ${1:item} in ${2:list} {
 	$0
 }
 	]]></content>

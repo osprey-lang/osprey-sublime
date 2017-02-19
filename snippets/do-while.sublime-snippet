@@ -1,7 +1,6 @@
 <snippet>
 	<content><![CDATA[
-do
-{
+do {
 	$0
 }${1: while ${2:true}};
 ]]></content>

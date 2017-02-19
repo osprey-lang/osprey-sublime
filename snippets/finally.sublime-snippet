@@ -1,7 +1,6 @@
 <snippet>
 	<content><![CDATA[
-finally
-{
+finally {
 	$0
 }
 ]]></content>

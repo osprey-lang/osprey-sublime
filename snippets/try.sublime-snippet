@@ -1,7 +1,6 @@
 <snippet>
 	<content><![CDATA[
-try
-{
+try {
 	$0
 }
 ]]></content>

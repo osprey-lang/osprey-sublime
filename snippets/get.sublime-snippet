@@ -2,7 +2,7 @@
 	<content><![CDATA[
 private _${1:property};
 /// Summary: Gets ${0:...}
-public get ${1:property} = _${1:property};
+public get ${1:property} => _${1:property};
 ]]></content>
 	<tabTrigger>get</tabTrigger>
 	<scope>meta.class.body.osprey - meta.class.member</scope>
