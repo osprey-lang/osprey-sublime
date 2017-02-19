@@ -1,0 +1,317 @@
+// SYNTAX TEST "Packages/Osprey/Osprey.sublime-syntax"
+
+// Comments
+// foo
+// <- punctuation.definition.comment.osprey
+// ^^^ comment.line.double-slash.osprey
+
+/// foo
+// <- punctuation.definition.comment.osprey
+//  ^^^ comment.line.double-slash.documentation.osprey
+
+/* foo */
+// <- punctuation.definition.comment.osprey
+// ^^^ comment.block.osprey
+//     ^^ punctuation.definition.comment.osprey
+
+/** foo */
+// <- punctuation.definition.comment.osprey
+//  ^^^ comment.block.documentation.osprey
+//      ^^ punctuation.definition.comment.osprey
+
+// Integers
+    1234567890 1234567890u 1234567890U
+//  ^^^^^^^^^^ constant.numeric.integer.osprey
+//             ^^^^^^^^^^^ constant.numeric.integer.osprey
+//                         ^^^^^^^^^^^ constant.numeric.integer.osprey
+    16k 16K
+//  ^^^ constant.numeric.integer.osprey
+//      ^^^ constant.numeric.integer.osprey
+    96m 96M
+//  ^^^ constant.numeric.integer.osprey
+//      ^^^ constant.numeric.integer.osprey
+    12g 12G
+//  ^^^ constant.numeric.integer.osprey
+//      ^^^ constant.numeric.integer.osprey
+    47t 47T
+//  ^^^ constant.numeric.integer.osprey
+//      ^^^ constant.numeric.integer.osprey
+    1_00_000_0000
+//  ^^^^^^^^^^^^^ constant.numeric.integer.osprey
+    0x0123_4567_89ab_cdef
+//  ^^^^^^^^^^^^^^^^^^^^^ constant.numeric.hex.osprey
+    0X0123_4567_89AB_CDEFu
+//  ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.hex.osprey
+
+// Real numbers
+    123.456 .789
+//  ^^^^^^^ constant.numeric.float.osprey
+//          ^^^ constant.numeric.float.osprey
+    .123e4 1.23e4
+//  ^^^^^^ constant.numeric.float.osprey
+//         ^^^^^^ constant.numeric.float.osprey
+    .123e+4 .123E+4 1.23e+4 1.23E+4
+//  ^^^^^^^ constant.numeric.float.osprey
+//          ^^^^^^^ constant.numeric.float.osprey
+//                  ^^^^^^^ constant.numeric.float.osprey
+//                          ^^^^^^^ constant.numeric.float.osprey
+    .123e-4 .123E-4 1.23e-4 1.23E-4
+//  ^^^^^^^ constant.numeric.float.osprey
+//          ^^^^^^^ constant.numeric.float.osprey
+//                  ^^^^^^^ constant.numeric.float.osprey
+//                          ^^^^^^^ constant.numeric.float.osprey
+
+// Regular strings
+    "hello"
+//  ^^^^^^^ string.quoted.double.osprey
+//  ^ punctuation.definition.string.begin.osprey
+//        ^ punctuation.definition.string.end.osprey
+    xx""xx""xx
+//  ^^ - string
+//    ^^ string.quoted.double.osprey
+//      ^^ - string
+//        ^^ string.quoted.double.osprey
+//          ^^ - string
+    "\\\"\'\0\a\b\n\r\t\_\-"
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.osprey
+//   ^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape.osprey
+
+// Character literals
+
+    'x'
+//  ^^^ string.quoted.single.osprey
+//  ^ punctuation.definition.string.begin.osprey
+//    ^ punctuation.definition.string.end.osprey
+    '\\' '\"' '\'' '\0' '\a' '\b'
+//   ^^ constant.character.escape.osprey
+//        ^^ constant.character.escape.osprey
+//             ^^ constant.character.escape.osprey
+//                  ^^ constant.character.escape.osprey
+//                       ^^ constant.character.escape.osprey
+//                            ^^ constant.character.escape.osprey
+    '\n' '\r' '\t' '\_' '\-'
+//   ^^ constant.character.escape.osprey
+//        ^^ constant.character.escape.osprey
+//             ^^ constant.character.escape.osprey
+//                  ^^ constant.character.escape.osprey
+//                       ^^ constant.character.escape.osprey
+
+// Use declarations - particularly the problematic contextual keyword 'as'
+use foo;
+// <- keyword.other.osprey
+//  ^^^ variable.other.osprey
+use foo as bar;
+//  ^^^ variable.other.osprey
+//      ^^ keyword.other.osprey
+//         ^^^ variable.other.osprey
+use foo.bar.{baz as quux};
+//  ^^^ variable.other.osprey
+//      ^^^ variable.other.osprey
+//          ^ punctuation.section.braces.begin.osprey
+//           ^^^ variable.other.osprey
+//               ^^ keyword.other
+//                  ^^^^ variable.other.osprey
+//                      ^ punctuation.section.braces.end.osprey
+use as as as;
+//  ^^ variable.other.osprey
+//     ^^ keyword.other.osprey
+//        ^^ variable.other.osprey
+use as.{as};
+//  ^^ variable.other.osprey
+//      ^^ variable.other.osprey
+use as.{as, as};
+//  ^^ variable.other.osprey
+//      ^^ variable.other.osprey
+//          ^^ variable.other.osprey
+use as.{as as as};
+//  ^^ variable.other.osprey
+//      ^^ variable.other.osprey
+//         ^^ keyword.other.osprey
+//            ^^ variable.other.osprey
+
+// Namespaces
+namespace foo.bar;
+// <- storage.type.osprey
+//        ^^^ entity.name.namespace.osprey
+//            ^^^ entity.name.namespace.osprey
+namespace foo.bar { /*...*/ }
+// <- storage.type.osprey
+//        ^^^ entity.name.namespace.osprey
+//            ^^^ entity.name.namespace.osprey
+//                ^ punctuation.section.braces.begin.osprey
+//                  ^^^^^^^ meta.namespace.body.osprey
+//                          ^ punctuation.section.braces.end.osprey
+
+// Global functions
+function foo(a, ref b, ...c, d = e) {
+// <- storage.type.osprey
+//       ^^^ entity.name.function.global.osprey
+//          ^ punctuation.section.parens.begin.osprey
+//           ^ variable.parameter.osprey
+//              ^^^ keyword.operator.word.osprey
+//                  ^ variable.parameter.osprey
+//                     ^^^ keyword.operator.ellipsis.osprey
+//                        ^ variable.parameter.osprey
+//                           ^ variable.parameter.osprey
+//                             ^ keyword.operator.osprey
+//                               ^ variable.other.osprey
+//                                ^ punctuation.section.parens.end.osprey
+    return sutin;
+//  ^^^^^^ keyword.control.osprey
+//         ^^^^^ variable.other.osprey
+}
+
+// Global constants
+const pi = three;
+// <- storage.type.osprey
+//    ^^ entity.name.constant.global.osprey
+//       ^ keyword.operator.osprey
+//         ^^^^^ variable.other.osprey
+const one = hello, two = world;
+//    ^^^ entity.name.constant.global.osprey
+//        ^ keyword.operator.osprey
+//          ^^^^^ variable.other.osprey
+//                 ^^^ entity.name.constant.global.osprey
+//                     ^ keyword.operator.osprey
+//                       ^^^^^ variable.other.osprey
+
+// Classes
+class T { /*...*/ }
+// <- storage.type.osprey
+//    ^ entity.name.class.osprey
+//      ^ punctuation.section.braces.begin.osprey
+//        ^^^^^^^ meta.class.body.osprey
+//                ^ punctuation.section.braces.end.osprey
+inheritable T { /*...*/ }
+// <- keyword.other.osprey
+//          ^ entity.name.class.osprey
+//            ^ punctuation.section.braces.begin.osprey
+//              ^^^^^^^ meta.class.body.osprey
+//                      ^ punctuation.section.braces.end.osprey
+class T {
+    get foo => _foo;
+//  ^^^^^^^^^^^^^^^^ meta.class.member.property.osprey
+//  ^^^ keyword.other.osprey
+//      ^^^ entity.name.property.osprey
+//          ^^ keyword.operator.osprey
+//             ^^^^ variable.other.osprey
+    set foo { _foo = value; }
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.member.property.osprey
+//  ^^^ keyword.other.osprey
+//      ^^^ entity.name.property.osprey
+//          ^ punctuation.section.braces.begin.osprey
+//            ^^^^ variable.other.osprey
+//                 ^ keyword.operator.osprey
+//                   ^^^^^ variable.other.osprey
+//                          ^ punctuation.section.braces.end.osprey
+    get = get;
+//  ^^^^^^^^^^ meta.class.member.field.osprey
+//  ^^^ entity.name.field.class.osprey
+//      ^ keyword.operator.osprey
+//        ^^^ variable.other.osprey
+    one = uno, two = dos;
+//  ^^^ entity.name.field.class.osprey
+//        ^^^ variable.other.osprey
+//             ^^^ entity.name.field.class.osprey
+//                   ^^^ variable.other.osprey
+    var field;
+//  ^^^ storage.type.osprey
+//      ^^^^^ entity.name.field.class.osprey
+    const foo = bar;
+//  ^^^^^^^^^^^^^^^^ meta.class.member.constant.osprey
+//  ^^^^^ storage.type.osprey
+//        ^^^ entity.name.constant.class.osprey
+//            ^ keyword.operator.osprey
+//              ^^^ variable.other.osprey
+    const one = won, two = too;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.member.constant.osprey
+//  ^^^^^ storage.type.osprey
+//        ^^^ entity.name.constant.class.osprey
+//            ^ keyword.operator.osprey
+//              ^^^ variable.other.osprey
+//                   ^^^ entity.name.constant.class.osprey
+//                       ^ keyword.operator.osprey
+//                         ^^^ variable.other.osprey
+    foo(a, ref b, ...c, d = e) { }
+//  ^^^ entity.name.function.method.osprey
+//     ^ punctuation.section.parens.begin.osprey
+//      ^ variable.parameter.osprey
+//         ^^^ keyword.operator.word.osprey
+//             ^ variable.parameter.osprey
+//                ^^^ keyword.operator.ellipsis.osprey
+//                   ^ variable.parameter.osprey
+//                      ^ variable.parameter.osprey
+//                        ^ keyword.operator.osprey
+//                          ^ variable.other.osprey
+//                           ^ punctuation.section.parens.end.osprey
+    function foo();
+//  ^^^^^^^^ storage.type.osprey
+//           ^^^ entity.name.function.method.osprey
+
+    operator ==(a, b) { }
+//  ^^^^^^^^ storage.type.osprey
+//           ^^ entity.name.operator.osprey
+//              ^ variable.parameter.osprey
+//                 ^ variable.parameter.osprey
+    iter { }
+//  ^^^^ storage.type.osprey
+}
+
+// Enums
+enum E {
+// <- storage.type.osprey
+//   ^ entity.name.enum.osprey
+//     ^ punctuation.section.braces.begin.osprey
+    one = x,
+//  ^^^ entity.name.constant.enum-field.osprey
+//      ^ keyword.operator.osprey
+//        ^ variable.other.osprey
+    two,
+//  ^^^ entity.name.constant.enum-field.osprey
+}
+// <- punctuation.section.braces.end.osprey
+enum set S { /*...*/ }
+// <- storage.type.osprey
+//   ^^^ storage.type.osprey
+//       ^ entity.name.enum.osprey
+//         ^ punctuation.section.braces.begin.osprey
+//           ^^^^^^^ meta.enum.osprey
+//                   ^ punctuation.section.braces.end.osprey
+enum set { }
+// <- storage.type.osprey
+//   ^^^ entity.name.enum.osprey
+
+// Conditional expressions
+// The ':' is highlighted, er, conditionally (some pun intended)
+foo : bar // no highlighting!
+//  ^ - keyword.operator.osprey
+foo ? bar : baz
+//  ^ keyword.operator.osprey
+//        ^ keyword.operator.osprey
+foo ? bar ? baz : quux : zorp
+//  ^ keyword.operator.osprey
+//        ^ keyword.operator.osprey
+//              ^ keyword.operator.osprey
+//                     ^ keyword.operator.osprey
+foo ? bar : baz ? quux : zorp
+//  ^ keyword.operator.osprey
+//        ^ keyword.operator.osprey
+//              ^ keyword.operator.osprey
+//                     ^ keyword.operator.osprey
+foo ? bar : baz : quux
+//  ^ keyword.operator.osprey
+//        ^ keyword.operator.osprey
+//              ^ - keyword.operator.osprey
+foo ?? bar : baz
+//         ^ - keyword.operator.osprey
+foo ?! bar : baz
+//         ^ - keyword.operator.osprey
+foo?.bar : baz
+// ^^ - keyword.operator.osprey
+//       ^ - keyword.operator.osprey
+foo?[bar] : baz
+// ^^ - keyword.operator.osprey
+//        ^ - keyword.operator.osprey
+foo?(bar) : baz
+// ^^ - keyword.operator.osprey
+//        ^ - keyword.operator.osprey

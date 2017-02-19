@@ -6,6 +6,8 @@ scope: source.osprey
 
 variables:
   ident: '\\?[\p{L}_][\p{L}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\p{Cf}_]*'
+  # Capital initial letter = usually type name (if you follow good style!)
+  type_name: '\\?[\p{Lu}][\p{L}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\p{Cf}_]*'
   ident_no_kw: '(?!(?>a(?>bstract|nd|sync)|b(?>ase|reak)|c(?>atch|lass|onst)|do|e(?>lse|num)|f(?>alse|inally|or|unction)|global|i(?>f|nheritable|nternal|n|s|ter)|let|n(?>amespace|ew|ext|ot|ull)|o(?>perator|r|verridable|verride)|p(?>rivate|rotected|ublic)|r(?>efeq|ef|eturn)|static|t(?>his|hrow|rue|ry|ypeof)|use|var|w(?>hile|ith)|xor|yield)\b){{ident}}'
 
 contexts:
@@ -26,38 +28,45 @@ contexts:
 
   comment:
     - meta_include_prototype: false
-    - match: '///.{0,90}(.*)'
+    - match: '(///).{0,90}(.*)'
       scope: comment.line.double-slash.documentation.osprey
       captures:
-        1: comment.line.double-slash.documentation.excess.osprey
+        1: punctuation.definition.comment.osprey
+        2: comment.line.double-slash.documentation.excess.osprey
     - match: '/\*\*(?!/)'
+      scope: punctuation.definition.comment.osprey
       push: block_doc_comment
-    - match: '//.*'
+    - match: '(//).*'
+      captures:
+        1: punctuation.definition.comment.osprey
       scope: comment.line.double-slash.osprey
     - match: '/\*'
+      scope: punctuation.definition.comment.osprey
       push: block_comment
 
   block_doc_comment:
     - meta_include_prototype: false
     - meta_scope: comment.block.documentation.osprey
     - match: '\*/'
+      scope: punctuation.definition.comment.osprey
       pop: true
 
   block_comment:
     - meta_include_prototype: false
     - meta_scope: comment.block.osprey
     - match: '\*/'
+      scope: punctuation.definition.comment.osprey
       pop: true
 
   string:
     - meta_include_prototype: false
     # Verbatim string literal: r"..."
     - match: '[rR]"'
-      scope: punctuation.definition.string.begin
+      scope: punctuation.definition.string.begin.osprey
       push: verbatim_string
     # Regular string literal: "..."
     - match: '"'
-      scope: punctuation.definition.string.begin
+      scope: punctuation.definition.string.begin.osprey
       push: regular_string
 
   verbatim_string:
@@ -68,7 +77,7 @@ contexts:
     - match: '""'
       scope: constant.character.escape.osprey
     - match: '"(?!")'
-      scope: punctuation.definition.string.end
+      scope: punctuation.definition.string.end.osprey
       pop: true
 
   regular_string:
@@ -76,7 +85,10 @@ contexts:
     - meta_scope: string.quoted.double.osprey
     - include: escape
     - match: '"'
-      scope: punctuation.definition.string.end
+      scope: punctuation.definition.string.end.osprey
+      pop: true
+    # Regular strings cannot span multiple lines
+    - match: '$'
       pop: true
 
   escape:
@@ -88,7 +100,7 @@ contexts:
     - meta_include_prototype: false
     # Character literal: 'x' (technically only one character, but the regex here allows any number)
     - match: ''''
-      scope: punctuation.definition.string.begin
+      scope: punctuation.definition.string.begin.osprey
       push: char_literal
 
   char_literal:
@@ -96,17 +108,23 @@ contexts:
     - meta_scope: string.quoted.single.osprey
     - include: escape
     - match: ''''
-      scope: punctuation.definition.string.end
+      scope: punctuation.definition.string.end.osprey
+      pop: true
+    # Character literals can never span multiple lines
+    - match: '$'
       pop: true
 
   number:
     - meta_include_prototype: false
-    # Hexadecimal number
+    # Hexadecimal integer
     - match: '0[xX]\h+(?:_\h+)*[uU]?'
-      scope: constant.numeric.osprey
-    # Decimal number (integer and real)
-    - match: '[0-9]+(?:_[0-9]+)*(?:\.[0-9]+(?:[eE][+-]?[0-9]+)?|[kKgGmMtT]?[uU]?)?'
-      scope: constant.numeric.osprey
+      scope: constant.numeric.hex.osprey
+    # Decimal real number
+    - match: '(?:[0-9]+(?:_[0-9]+)*)?\.[0-9]+(?:[eE][+-]?[0-9]+)?'
+      scope: constant.numeric.float.osprey
+    # Decimal integer
+    - match: '[0-9]+(?:_[0-9]+)*[kKgGmMtT]?[uU]?'
+      scope: constant.numeric.integer.osprey
 
   keyword:
     - meta_include_prototype: false
@@ -141,7 +159,7 @@ contexts:
   identifier:
     - meta_include_prototype: false
     # Type name (probably, anyway; if you follow good style!)
-    - match: '\\?[\p{Lu}][\p{L}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\p{Cf}_]*'
+    - match: '{{type_name}}'
       scope: support.class.osprey
     # Identifier (regular or escaped)
     - match: '{{ident}}'
@@ -191,34 +209,73 @@ contexts:
     - include: tokens
 
   parenthesis:
-    - meta_scope: meta.parens
+    - meta_scope: meta.parens.osprey
     - match: '\)'
       scope: punctuation.section.parens.end.osprey
       pop: true
     - include: tokens
 
   square_bracket:
-    - meta_scope: meta.brackets
+    - meta_scope: meta.brackets.osprey
     - match: '\]'
       scope: punctuation.section.brackets.end.osprey
       pop: true
     - include: tokens
 
   curly_brace:
-    - meta_scope: meta.braces
+    - meta_scope: meta.braces.osprey
     - match: '\}'
       scope: punctuation.section.braces.end.osprey
       pop: true
     - include: tokens
 
   namespace_contents:
+    - include: use_directive
     - include: namespace_definition
     - include: class_definition
     - include: enum_definition
     - include: function_definition
+    - include: constant_definition
     - match: '!'
       scope: keyword.operator.osprey
       push: annotation
+    - include: tokens
+
+  use_directive:
+    - meta_include_prototype: false
+    - match: 'use\b'
+      scope: keyword.other.osprey
+      set: use_directive_contents
+
+  use_directive_contents:
+    - match: '{{type_name}}'
+      scope: support.class.osprey
+      set: use_directive_qname_after_ident
+    - match: '{{ident_no_kw}}'
+      scope: variable.other.osprey
+      set: use_directive_qname_after_ident
+    - match: '\{'
+      scope: punctuation.section.braces.begin.osprey
+    - match: '\}'
+      scope: punctuation.section.braces.end.osprey
+    - match: ';'
+      pop: true
+    - include: tokens
+
+  use_directive_qname_after_ident:
+    - match: 'as\b'
+      scope: keyword.other.osprey
+      set: use_directive_contents
+    - match: '[.,]'
+      set: use_directive_contents
+    - match: '\{'
+      scope: punctuation.section.braces.begin.osprey
+      set: use_directive_contents
+    - match: '\}'
+      scope: punctuation.section.braces.end.osprey
+      set: use_directive_contents
+    - match: ';'
+      pop: true
     - include: tokens
 
   namespace_definition:
@@ -261,10 +318,9 @@ contexts:
     - include: tokens
 
   class_body:
-    - meta_scope: meta.braces meta.class.body.osprey
+    - meta_scope: meta.braces.osprey meta.class.body.osprey
     # Property accessor declaration
     - match: '(get|set)\s+(?:({{ident_no_kw}})|(this\b))'
-      scope: meta.property.osprey
       captures:
         1: keyword.other.osprey
         2: entity.name.property.osprey
@@ -284,7 +340,13 @@ contexts:
         2: keyword.other.osprey
         3: punctuation.section.parens.begin.osprey
       set: [method_body, parameter_list]
-    # Field or constant declaration
+    # Constant declaration
+    - match: '(const)\s+({{ident_no_kw}})'
+      captures:
+        1: storage.type.osprey
+        2: entity.name.constant.class.osprey
+      set: class_constant_definition
+    # Field declaration
     - match: '({{ident_no_kw}})(?!\s*\()'
       scope: entity.name.field.class.osprey
       set: field_definition
@@ -363,7 +425,7 @@ contexts:
     - include: tokens
 
   property_block_body:
-    - meta_scope: meta.braces meta.class.member.property.osprey
+    - meta_scope: meta.braces.osprey meta.class.member.property.osprey
     - include: curly_braced_class_member
 
   method_body:
@@ -383,7 +445,7 @@ contexts:
     - include: tokens
 
   method_block_body:
-    - meta_scope: meta.braces meta.class.member.method.osprey
+    - meta_scope: meta.braces.osprey meta.class.member.method.osprey
     - include: curly_braced_class_member
 
   curly_braced_class_member:
@@ -392,7 +454,41 @@ contexts:
       set: class_body
     - include: tokens
 
+  class_constant_definition:
+    - meta_scope: meta.class.member.constant.osprey
+    # End of definition
+    - match: ';'
+      set: class_body
+    # End of class
+    - match: '\}'
+      scope: punctuation.section.braces.end.osprey
+      pop: true
+    # Beginning of value
+    - match: '=(?!=)'
+      scope: keyword.operator.osprey
+      set: class_constant_value
+    # Another constant name (hopefully after a comma)
+    - match: '{{ident_no_kw}}'
+      scope: entity.name.constant.class.osprey
+    # Comma needs no special treatment here; it just continues the constant definition
+    - include: tokens
+
+  class_constant_value:
+    - meta_content_scope: meta.class.member.constant.osprey
+    # After a comma, there might be another constant
+    - match: ','
+      set: class_constant_definition
+    # After a semicolon, not so much
+    - match: ';'
+      set: class_body
+    # End of class
+    - match: '\}'
+      scope: punctuation.section.braces.end.osprey
+      pop: true
+    - include: tokens
+
   field_definition:
+    - meta_scope: meta.class.member.field.osprey
     # End of definition
     - match: ';'
       set: class_body
@@ -401,13 +497,13 @@ contexts:
       scope: 'punctuation.section.braces.end.osprey'
       pop: true
     # Field with value
-    - match: '='
+    - match: '=(?!=)'
       scope: keyword.operator.osprey
       set: field_value
     # Another field name (hopefully after a comma)
     - match: '{{ident_no_kw}}'
       scope: entity.name.field.class.osprey
-    # Comma needs no special treatment here; they just continue the field definition
+    # Comma needs no special treatment here; it just continues the field definition
     - include: tokens
 
   field_value:
@@ -450,7 +546,6 @@ contexts:
   enum_definition:
     - meta_include_prototype: false
     - match: '(enum(?:\s+set)?)\s+({{ident_no_kw}})'
-      scope: meta.enum.osprey
       captures:
         1: storage.type.osprey
         2: entity.name.enum.osprey
@@ -541,6 +636,38 @@ contexts:
       set: parameter_list
     - match: '\)'
       scope: punctuation.section.parens.end.osprey
+      pop: true
+    - include: tokens
+
+  constant_definition:
+    - match: '(const)\s+({{ident_no_kw}})'
+      captures:
+        1: storage.type.osprey
+        2: entity.name.constant.global.osprey
+      push: constant_definition_contents
+
+  constant_definition_contents:
+    - meta_scope: meta.constant.osprey
+    # End of definition
+    - match: ';'
+      pop: true
+    # Beginning of value
+    - match: '=(?!=)'
+      scope: keyword.operator.osprey
+      set: constant_definition_value
+    # Another constant name (hopefully after a comma)
+    - match: '{{ident_no_kw}}'
+      scope: entity.name.constant.global.osprey
+    # Comma needs no special treatment here; it just continues the constant definition
+    - include: tokens
+
+  constant_definition_value:
+    - meta_content_scope: meta.constant.osprey
+    # After a comma, there might be another constant
+    - match: ','
+      set: constant_definition_contents
+    # After a semicolon, not so much
+    - match: ';'
       pop: true
     - include: tokens
 ...

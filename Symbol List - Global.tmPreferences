@@ -5,6 +5,7 @@
 	Things we want to show in the indexed symbol list:
 		- Types (classes and enums)
 		- Functions
+		- Global constants
 		- Methods
 		- Properties
 		- Enum fields
@@ -20,7 +21,7 @@
 	<key>name</key>
 	<string>Symbol List: Local and indexed</string>
 	<key>scope</key>
-	<string>source.osprey entity.name.class.osprey, source.osprey entity.name.enum.osprey, source.osprey entity.name.function.global.osprey</string>
+	<string>source.osprey entity.name.class.osprey, source.osprey entity.name.enum.osprey, source.osprey entity.name.function.global.osprey, source.osprey entity.name.constant.global.osprey</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
