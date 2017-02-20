@@ -7,6 +7,6 @@ public get ${1:property} => _${1:property};
 public set ${1:property} {${0: _${1:property} = value; }}
 ]]></content>
 	<tabTrigger>prop</tabTrigger>
-	<scope>meta.class.body.osprey - meta.class.member</scope>
+	<scope>meta.class.body.osprey - meta.class.member.method - meta.class.member.property</scope>
 	<description>Read-write property</description>
 </snippet>
