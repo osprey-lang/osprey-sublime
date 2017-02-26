@@ -593,7 +593,7 @@ contexts:
     - include: tokens
 
   function_definition:
-    - match: '(function)\s+({{ident_no_kw}})\s*(\()'
+    - match: '(?:(function)\s+)?({{ident_no_kw}})\s*(\()'
       scope: meta.function.osprey
       captures:
         1: storage.type.osprey
