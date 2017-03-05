@@ -132,7 +132,7 @@ contexts:
     - match: '(?>break|catch|do|else|finally|for|if|next|return|throw|try|while|with|yield)\b'
       scope: keyword.control.osprey
     # Keyword operators
-    - match: '(?>and|in|is|not|or|refeq|ref|typeof|xor)\b' # Don't reorder ref and refeq; atomic group!
+    - match: '(?>and|is|not|or|refeq|ref|typeof|xor)\b' # Don't reorder ref and refeq; atomic group!
       scope: keyword.operator.word.osprey
     # Keyword constants
     - match: '(?>false|null|true)\b'
@@ -147,10 +147,10 @@ contexts:
     - match: '(?>abstract|inheritable|internal|overridable|override|private|protected|public|static)\b'
       scope: storage.modifier.osprey
     # Extension keywords
-    - match: '__(?>extern|get_argc|init_type|named_const|primitive)\b'
+    - match: '__(?>extern|init_type|named_const|primitive)\b'
       scope: keyword.other.extension.osprey
     # Other keywords
-    - match: '(?>global|iter|new|operator|use)\b'
+    - match: '(?>global|in|iter|new|operator|use)\b'
       scope: keyword.other.osprey
     # Reserved keywords
     - match: 'async\b'
